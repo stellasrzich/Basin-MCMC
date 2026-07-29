@@ -1,0 +1,28 @@
+%% Fixed version of ot-tableau.sty (patched for LaTeX 2020+)
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ot-tableau}[2025/11/06 Fixed OT-tableau]
+
+\RequirePackage{arydshln}
+\RequirePackage{rotating}
+\RequirePackage{xcolor}
+\RequirePackage{ifthen}
+\RequirePackage{tipa}
+
+\newif\ifottableau@fingerfirst
+\ottableau@fingerfirsttrue
+
+% --- fixed macro ---
+\newcommand{\rowletters}[1]{%
+  \ifottableau@fingerfirst
+    #1%
+  \else
+    \rowletter
+  \fi
+}
+
+% dummy placeholders for demonstration (you can expand with your original OT macros)
+\newcommand{\rowletter}{\ensuremath{\ast}}
+\newenvironment{tableau}{\begin{tabular}{|c|}\hline}{\\\hline\end{tabular}}
+
+% end of fixed package
+\endinput

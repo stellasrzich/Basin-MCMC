@@ -1,0 +1,112 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Modified for COSC480/490 by:
+% Lech Szymanski (8/3/18)
+%
+% Cleaned and fixed version (2025) by ChatGPT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ProvidesPackage{cosc343style}[COSC343 report style file]
+
+% ---------- CORE PACKAGES ----------
+\usepackage[a4paper,bindingoffset=0.2in,
+            left=1in,right=1in,top=1in,bottom=1in,
+            footskip=.25in]{geometry}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[parfill]{parskip}
+\usepackage{titlesec}
+\usepackage{verbatim}
+\usepackage{hyperref}
+
+% ---------- OPTIONAL PACKAGES ----------
+% For OT-style tableaux
+\usepackage{ot-tableau}
+
+% Uncomment if you need symbols like ☹ or 💣 (conflicts with some fonts)
+% \usepackage{fourier-orns}
+
+% Uncomment if you need IPA-friendly fonts
+% \usepackage{libertine}
+
+% ---------- DRAFT MODE ----------
+\newif\if@draftmode
+\@draftmodefalse
+\DeclareOption{draft}{\@draftmodetrue}
+\ProcessOptions\relax
+
+\setlength{\marginparwidth}{2cm}
+
+\if@draftmode
+  \RequirePackage{todonotes}
+\else
+  \RequirePackage[disable]{todonotes}
+\fi
+
+% ---------- CUSTOM COMMANDS ----------
+\let\@papercode\@empty
+\let\@supervisors\@empty
+\let\@reportdate\@empty
+\let\@studentid\@empty
+\let\@shorttitle\@empty
+
+\newcommand{\papercode}[1]{\gdef\@papercode{#1}}
+\newcommand{\supervisors}[1]{\gdef\@supervisors{#1}}
+\newcommand{\reportdate}[1]{\gdef\@reportdate{#1}}
+\newcommand{\studentid}[1]{\gdef\@studentid{#1}}
+\newcommand{\shorttitle}[1]{\gdef\@shorttitle{#1}}
+
+\newif\ifthanks@
+\thanks@false
+\def\thanksfile#1{\gdef\@thanksfile{#1}\thanks@true}
+
+\def\supervisor#1{\gdef\@supervisor{#1}}
+\def\reportyear#1{\gdef\@reportyear{#1}}
+\def\abstractfile#1{\gdef\@abstractfile{#1}}
+\def\studentid#1{\gdef\@studentid{#1}}
+\def\@title{}\def\@author{}
+\def\@supervisor{}
+\reportyear{2020}
+\abstractfile{null}
+
+% ---------- TITLE FORMAT ----------
+\makeatletter
+\def\@maketitle{
+  \noindent
+  {\Large \bfseries \color{black} \@papercode{}: \@title} \\[0.25em]
+  \hrule\vspace{0.25em}
+  \noindent \@author{} (\@studentid) \\[0.25em]
+  \@date
+}
+\makeatother
+
+% ---------- PARAGRAPH SETTINGS ----------
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{30pt}
+
+% ---------- HYPERREF SETTINGS ----------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  filecolor=magenta,
+  urlcolor=blue
+}
+
+% ---------- END ----------
+\endinput

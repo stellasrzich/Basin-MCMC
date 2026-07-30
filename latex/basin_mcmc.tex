@@ -369,27 +369,50 @@ The algorithm roughly works as follows:
   \textbf{function:} $[x^1,\ldots,x^N] =
   \mathrm{BasinMCMC}\bigl(\pi(\cdot), \{\pi_{C,x}(\cdot)\}_{x \in \mathcal{X}}, q(\cdot\mid\cdot), n, x^0, N\bigr)$
   
-  \textbf{input:} target density $\pi(\cdot)$, state-dependent surrogate (coarse) densities $\{\pi_{C,x}(\cdot)\}_{x \in \mathcal{X}}$, 
-  proposal kernel $q(\cdot\mid\cdot)$, subchain length $n$, initial state $x^0$, number of steps $N$
+  \textbf{input:} target density $\pi(\cdot)$, 
+  initial basin probability distribution $\pi_{B,0}(\cdot)$ (dependent on representative state $x_0$), 
+  birth/death proposal kernel $q_{Birth/Death}(\cdot\mid\cdot)$, 
+  perturb proposal kernel $q_{Perturb}(\cdot\mid\cdot)$, 
+  merge/split proposal kernel $q_{Merge/Split}(\cdot\mid\cdot)$, 
+  subchain length $n$, initial state $x^0$, number of steps $N$
   
   \textbf{output:} ordered list of states $[x^1,\ldots,x^N]$
   
-  \begin{algorithmic}[1]
+\begin{algorithmic}[1]
+  \State Initialize list of basins $\mathcal{B}^0 = [B]$ with $B= (x_0, \pi_{B,0}(\cdot), p_{B,0} = 1)$.
   \For{$j = 0$ to $N-1$}
-      \State Starting at $x^j$, generate subchain of length $n$ using MH Alg. 1 to target $\pi_{C, x_j}(\cdot)$:
-      \[
-          y = \mathrm{MH}\bigl(\pi_{C, x_j}(\cdot), q(\cdot\mid\cdot), x^j, n\bigr).
-      \]
-      \State Accept the state $y$ as our proposal, i.e. set $x^{j+1} = y$, with probability
-      \[
-          \alpha(y \mid x^j)
-          =
-          \text{(some value that ensures the chain is in detailed balance with $\pi(\cdot)$)}.
-      \]
-      \State Otherwise reject $y$ and set $x^{j+1} = x^j$.
+    \State Given $\mathcal{B}^j$, choose a move from $\{Birth/Death, Perturb, Merge/Split\}$.
+    \If{Birth/Death:}
+      \State Propose a list of basins $\mathcal{B}^{*}$ from $q_{Birth/Death}(\cdot\mid\mathcal{B}^j)$, where 
+      $\mathcal{B}^*$ is $\mathcal{B}^j$ with an additional or removed basin. 
+      \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Birth/Death move.
+    \ElsIf{Perturb:}
+      \State Propose a list of basins $\mathcal{B}^{*}$ from $q_{Perturb}(\cdot\mid\mathcal{B}^j)$, where 
+      $\mathcal{B}^*$ is $\mathcal{B}^j$ with probability distribution adapted and a different representative state. 
+      This is done by running the local sampler within the basin.
+      \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Perturb move.
+    \ElsIf{Merge/Split:}
+      \State Propose a list of basins $\mathcal{B}^{*}$ from $q_{Merge/Split}(\cdot\mid\mathcal{B}^j)$, where 
+      $\mathcal{B}^*$ is $\mathcal{B}^j$ with two merged or split basins.
+      \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Merge/Split move.
+    \EndIf
+    \State Accept proposal $\mathcal{B}^{*}$, i.e. set $\mathcal{B}^{j+1} = \mathcal{B}^{*}$, with probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$. 
+    \State Otherwise reject $\mathcal{B}^{*}$ and set $\mathcal{B}^{j+1} = \mathcal{B}^j$.
   \EndFor
   \end{algorithmic}
 \end{algorithm}
+
+By construction, if this MCMC will be ergodic as long as the adaption of the probability distribution of the basin 
+eventually stops adapting in some sense. That is, we must be carefully to prove that the adaption ensures that the chain is still ergodic.
+
+As bells and whistles, we could consider the following:
+\begin{itemize}
+  \item Stop adapting the probability distributions of the basins once they have converged enough.
+  \item Do a delayed acceptance step before computing the MH acceptance probability and doing the MH step. 
+  We could use a bogus likelihood for the delayed acceptance step, and then use the actual likelihood for the MH step.
+  This would reduce the number of times we need to evaluate the forward map and should increase efficiency 
+  with a well chosen bogus likelihood.
+\end{itemize}
 
 
 % %-------- REFERENCES ---------

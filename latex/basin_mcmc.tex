@@ -396,7 +396,7 @@ The algorithm roughly works as follows:
       \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Birth/Death move.
     \ElsIf{Perturb:}
       \State Propose a list of basins $\mathcal{B}^{*}$ from $q_{Perturb}(\cdot\mid\mathcal{B}^j)$, where 
-      $\mathcal{B}^*$ is $\mathcal{B}^j$ with some basin's probability distribution and probability adapted and representative state updated.
+      $\mathcal{B}^*$ is $\mathcal{B}^j$ with some basin's probability distribution and probability adapted, and representative state updated.
       This is done by running the local sampler of some basin.
       \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Perturb move.
     \ElsIf{Merge/Split:}

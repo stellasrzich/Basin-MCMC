@@ -363,6 +363,11 @@ The moves we will do on basins are:
     \item \textbf{Split move:} split a basin into two, where the representative state of the new basins is a partition of the representative state of the original basin.
 \end{itemize}
 
+To ensure the mixture of moves is in detailed balance with the target density 
+it suffices to ensure each of the moves is in detailed balance with the target density.
+To achieve this, we must combine the birth and death moves, and the merge and split moves, into a single move, 
+and then ensure each of the birth/death, perturb, and merge/split moves is in detailed balance with the target density.
+
 \subsection{Algorithm}
 The algorithm roughly works as follows:
 \begin{algorithm}[H]

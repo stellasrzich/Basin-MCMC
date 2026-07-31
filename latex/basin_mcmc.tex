@@ -331,7 +331,7 @@ If I have extra time, I will also complete the following tasks:
   We would use a bogus likelihood for the delayed acceptance step, and then use the actual likelihood for the MH step.
   This would reduce the number of times we need to evaluate the forward map and should increase efficiency 
   with a well chosen bogus likelihood.
-  \item \textbf{Consider adaption of probabilities:} Consider adding a step after 
+  \item \textbf{Consider adaption of basinprobabilities:} Consider adding a step after 
   acceptance/rejection that given $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$, 
   adapts the probabilities of the basins in $\mathcal{B}^{j+1}$. I will probably not do this 
   as it complicates the algorithm. I am only considering this as one may want to use all evaluations 

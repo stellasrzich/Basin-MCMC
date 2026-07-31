@@ -322,6 +322,7 @@ we want to somehow modify the RST algorithm to allow for state-dependent coarse 
 
 \section{The Basin MCMC algorithm}
 
+\subsection{Basins}
 We first discuss the notion of a basin. 
 One way to think of a basin is as a probability distribution over states 
 that captures how \textit{similar} states are to some representative state.
@@ -345,6 +346,7 @@ To be more precise, a basin $B$ is a set of the following:
     and adapts $\pi_{B}(\cdot)$ with each iteration.}
 \end{itemize}
 
+\subsection{Moves on Basins}
 Recall that our original MCMC algorithm worked by doing a mixture of moves between states of the model, 
 such as birth, death, and perturbation moves. The basin MCMC algorithm will work in a similar way, 
 still doing some kind of mixture of moves, but instead we will consider the state of the MCMC 
@@ -361,6 +363,7 @@ The moves we will do on basins are:
     \item \textbf{Split move:} split a basin into two, where the representative state of the new basins is a partition of the representative state of the original basin.
 \end{itemize}
 
+\subsection{Algorithm}
 The algorithm roughly works as follows:
 \begin{algorithm}[H]
   \caption{Basin MCMC}
@@ -402,6 +405,8 @@ The algorithm roughly works as follows:
   \end{algorithmic}
 \end{algorithm}
 
+\subsection{Considerations}
+\hl{TODO.}
 By construction, if this MCMC will be ergodic as long as the adaption of the probability distribution of the basin 
 eventually stops adapting in some sense. That is, we must be carefully to prove that the adaption ensures that the chain is still ergodic.
 

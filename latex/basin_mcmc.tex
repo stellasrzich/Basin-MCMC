@@ -144,7 +144,6 @@
 
 
 \section{What kind of algorithm do we want?}
-\hl{TODO.}
 In general, we want an algorithm that 
 correctly samples from a target density $\pi(\cdot)$ 
 (i.e., produces a Markov chain that is ergodic with respect to $\pi(\cdot)$). 
@@ -190,133 +189,23 @@ with basic choices of proposal kernel $q(\cdot\mid\cdot)$,
 the MH algorithm can struggle to explore all modes within a reasonable number of iterations.
 In this case, the MH algorithm will not converge to the target density within a reasonable number of iterations. 
 
-One way to address this is to, at each iteration, run a subchain of length $n$ that targets 
-a coarse (i.e., cheap to evaluate) density $\pi_{C}(\cdot)$, and then use the resulting state as a proposal for this iteration.
-The idea is that 
-if the coarse density $\pi_{C}(\cdot)$ approximates the target density $\pi(\cdot)$ well enough,
-after a sufficient number of subchain steps, the proposal will be in a different mode. 
-This effectively produces a new proposal kernel (from the basic proposal kernel $q(\cdot\mid\cdot)$) for use in 
-in the MH algorithm that ``wormholes'' between modes without us having to be clever about explicitly designing such a proposal. 
-Or, as we like to think of it, a proposal kernel of little ``rats and mice'' that tunnel between the modes.
-This idea is implemented in the Randomised-Length-Subchain Surrogate Transition (RST) algorithm. 
+One way to address this is to 
+represent the target density as a collection of local probability distributions, which we call \textit{basins}.
+Each basin has a representative state and describes states that are similar to that representative state.
+The idea is that each basin captures one local region, or mode, of the target density.
 
-\begin{algorithm}[H]
-  \caption{Randomised-Length-Subchain Surrogate Transition (RST)}
-  \label{alg:rst}
-  \textbf{function:} $[x^1,\ldots,x^N] =
-  \mathrm{RST}\bigl(
-      \pi_F(\cdot),
-      \pi_C(\cdot),
-      q(\cdot\mid\cdot),
-      p(\cdot),
-      x^0,
-      N
-  \bigr)$
-  
-  \textbf{input:} target (fine) density $\pi_F(\cdot)$, surrogate (coarse) density $\pi_C(\cdot)$,
-  proposal kernel $q(\cdot\mid\cdot)$, probability mass function $p(\cdot)$ over subchain length,
-  initial state $x^0$, number of steps $N$
-  
-  \textbf{output:} ordered list of states $[x^1,\ldots,x^N]$
-  (or just the final state $x^N$)
-  
-  \begin{algorithmic}[1]
-  \For{$j = 0$ to $N-1$}
-      \State Draw the subchain length $n \sim p(\cdot)$.
+Instead of directly moving between individual states using only basic proposals (e.g., birth, death, and perturbation moves),
+we treat the state of the algorithm as a collection of basins.
+We then perform moves that add, remove, perturb, merge, or split these basins.
+Within each basin, a local sampler explores nearby states and adapts the basin's probability distribution so that it better represents the local shape of the target density.
 
-      \State Starting at $x^j$, generate a subchain of length $n$ using MH Alg.~1 to target $\pi_C(\cdot)$:
-      \[
-          y
-          =
-          \mathrm{MH}\bigl(
-              \pi_C(\cdot),
-              q(\cdot\mid\cdot),
-              x^j,
-              n
-          \bigr).
-      \]
-      
-      \State Accept the proposal $y$ as the next sample, i.e. set
-      $x^{j+1} = y$, with probability
-      \[
-          \alpha(y \mid x^j)
-          =
-          \min\left\{
-              1,
-              \frac{
-                  \pi_F(y)\pi_C(x^j)
-              }{
-                  \pi_F(x^j)\pi_C(y)
-              }
-          \right\}.
-      \]
-      
-      \State Otherwise reject $y$ and set $x^{j+1} = x^j$.
-  \EndFor
-  \end{algorithmic}
-\end{algorithm}
+This gives the algorithm an explicit, higher-level representation of the modes it has discovered.
+Local moves allow the algorithm to efficiently explore within a mode, while birth, death, merge, and split moves allow it to discover new modes and change its representation of the existing modes.
+The hope is that this allows the algorithm to explore a multimodal target density more effectively than directly applying basic proposal kernels to individual states.
 
-To make the RST algorithm more efficient, 
-one would like to estimate the mean and covariance of the discrepancy between the exact and coarse forward maps 
-and subsequently modify the coarse likelihood so that the resulting coarse density more closely approximates the target density as the chain progresses
-(see Fox, Cui and Neumayer 2020).
+This idea is implemented in the Basin MCMC algorithm.
 
-If we allow state-dependent coarse densities $\pi_{C,x}(\cdot)$,
-as opposed to a single state-independent coarse density $\pi_{C}(\cdot)$ as in the RST algorithm,
-the coarse forward map can be locally corrected so that it agrees with the exact forward map at the current state $x$.
-For this locally corrected map, the discrepancy is zero at $x$ and has mean zero under the stationary transition law. 
-For some reason (I think because we no longer need to correct the global coarse model error, we only need to correct the 
-change in the coarse model error over one move), the modified
-state-dependent coarse densities more closely approximate the target density than the modified state-independent coarse density.
-Long story short, this results in a more efficient algorithm.
-
-We name this algorithm the Rat-Mice (RM) algorithm.
-For simplicity, we begin by only considering a fixed subchain length $n$.
-
-\begin{algorithm}[H]
-  \caption{Rat-Mice (RM)}
-  \label{alg:rm}
-  \textbf{function:} $[x^1,\ldots,x^N] =
-  \mathrm{RM}\bigl(\pi(\cdot), \{\pi_{C,x}(\cdot)\}_{x \in \mathcal{X}}, q(\cdot\mid\cdot), n, x^0, N\bigr)$
-  
-  \textbf{input:} target density $\pi(\cdot)$, state-dependent surrogate (coarse) densities $\{\pi_{C,x}(\cdot)\}_{x \in \mathcal{X}}$, 
-  proposal kernel $q(\cdot\mid\cdot)$, subchain length $n$, initial state $x^0$, number of steps $N$
-  
-  \textbf{output:} ordered list of states $[x^1,\ldots,x^N]$
-  
-  \begin{algorithmic}[1]
-  \For{$j = 0$ to $N-1$}
-      \State Starting at $x^j$, generate subchain of length $n$ using MH Alg. 1 to target $\pi_{C, x_j}(\cdot)$:
-      \[
-          y = \mathrm{MH}\bigl(\pi_{C, x_j}(\cdot), q(\cdot\mid\cdot), x^j, n\bigr).
-      \]
-      \State Accept the state $y$ as our proposal, i.e. set $x^{j+1} = y$, with probability
-      \[
-          \alpha(y \mid x^j)
-          =
-          \text{(some value that ensures the chain is in detailed balance with $\pi(\cdot)$)}.
-      \]
-      \State Otherwise reject $y$ and set $x^{j+1} = x^j$.
-  \EndFor
-  \end{algorithmic}
-\end{algorithm}
-
-We now recap the point of the RM algorithm. 
-If you use basic proposal kernels (i.e., ones you are not super clever about), 
-the MH algorithm will not converge to a multimodal target density within a reasonable number of iterations.
-One way to address this is to use the basic proposal kernel to generate a more 
-sophisticated proposal kernel that acts like little ``rats and mice'' that tunnel between the modes. 
-
-To generate this more sophisticated proposal kernel, you want to target a density that is cheap to evaluate 
-(so that doing a bunch of steps in the subchain is cheap), and you want the density to be a good approximation 
-of the target density (so that proposals kind of look like samples from the target density and are accepted with high probability). 
-The RST algorithm does this, but only allows for a single state-independent coarse density.
-
-Given a state-independent coarse density (which will be defined by a coarse forward map), we can easily 
-define state-dependent coarse densities that are better approximations of the target density 
-(and are as cheap to evaluate as they use the same coarse forward map).
-Thus, 
-we want to somehow modify the RST algorithm to allow for state-dependent coarse densities.
+\hl{The basins are almost a high level representation of the modes?}
 
 
 \section{The Basin MCMC algorithm}

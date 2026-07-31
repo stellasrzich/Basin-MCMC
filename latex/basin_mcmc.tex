@@ -203,9 +203,8 @@ and adapts the basin's probability distribution and probability so that it bette
 I loosely view this algorithm as fitting the proposal kernel to the target density, 
 including all its modes. Local moves allow the algorithm to fit a discovered mode, 
 while birth, death, merge, and split moves allow it to discover new modes and change its representation of the existing modes.
-Moreover, this algorithm represents the proposal kernel as a collection of local probability distributions 
-(that we shall choose to be unimodal and easy to sample from), 
-so that we can sample independently and efficiently from the proposal kernel.
+Moreover, since this algorithm represents the proposal kernel as a collection of local probability distributions 
+(that we shall choose to be unimodal and easy to sample from), we can sample independently and efficiently from the proposal kernel.
 
 The hope is that this allows the algorithm to explore a multimodal target density more effectively 
 than directly applying basic proposal kernels to individual states. 

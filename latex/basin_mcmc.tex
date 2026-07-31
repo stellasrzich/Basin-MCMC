@@ -211,7 +211,7 @@ than directly applying basic proposal kernels to individual states.
 That is, to allow the chain to converge to the multimodal target density within a reasonable number of iterations. 
 And, since the proposal kernel will be close to the target density
 and give samples that are effectively independent of each other, 
-samples are effectively independent and the cost per effective sample is low.
+samples are effectively independent, and so the cost per effective sample is low.
 
 Once this is achieved, one can worry about tweaking the algorithm to further minimize the computational cost per effective sample 
 by decreasing the cost per sample (e.g., by using a delayed acceptance step to reduce the number of times we need to evaluate the forward map).

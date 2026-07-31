@@ -199,9 +199,15 @@ we treat the state of the algorithm as a collection of basins.
 We then perform moves that add, remove, perturb, merge, or split these basins.
 Within each basin, a local sampler explores nearby states and adapts the basin's probability distribution so that it better represents the local shape of the target density.
 
-This allows the algorithm to remember the modes it has discovered.
-Local moves allow the algorithm to efficiently explore within a mode, while birth, death, merge, and split moves allow it to discover new modes and change its representation of the existing modes.
-The hope is that this allows the algorithm to explore a multimodal target density more effectively than directly applying basic proposal kernels to individual states.
+I loosely view this algorithm as using past information in the chain 
+to fit the proposal kernel to the target density, 
+including its modes. Local moves allow the algorithm to fit a discovered mode, 
+while birth, death, merge, and split moves allow it to discover new modes and change its representation of the existing modes.
+
+The hope is that this allows the algorithm to explore a multimodal target density more effectively 
+than directly applying basic proposal kernels to individual states. 
+That is, to allow the chain to converge to the multimodal target density within a reasonable number of iterations. 
+Once this is achieved, one can worry about tweaking the algorithm to minimize the computational cost per effective sample.
 
 This idea is implemented in the Basin MCMC algorithm.
 \hl{The basins are almost a high level representation of the modes?}

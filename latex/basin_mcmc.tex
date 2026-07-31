@@ -415,25 +415,25 @@ The algorithm roughly works as follows:
 \subsection{Development}
 This can become a fairly sophisticated algorithm. 
 To develop it, I will complete the following tasks, implementing them in Python as I go:
-\begin{itemize}
+\begin{enumerate}
   \item \textbf{Decide initial basin probability distribution and probability:} Decide how to choose the initial probability distribution and probability for a basin given an initial representative state.
   \item \textbf{Decide peturb move:} Decide what the perturb moves should be. That is, decide what the local sampler for each basin should be. This includes how we propose from the basin probability distribution, and how we adapt the basin probability distribution and probability
-  \item \textbf{Decide birth/death move:} Decide what the birth/death move should be
-  \item \textbf{Decide merge/split move:} Decide what the merge/split move should be
+  \item \textbf{Decide birth/death move:} Decide what the birth/death move should be.
+  \item \textbf{Decide merge/split move:} Decide what the merge/split move should be.
   \item \textbf{Decide move choice:} Decide how to choose a move from the set of possible moves.
   \item \textbf{Prove diminishing adaption:} Prove that the adaption is diminishing, and so the chain is ergodic. 
   Note that by construction, this MCMC is ergodic without any adaption 
   (as long as the birth move shares support with the target density, etc).
-\end{itemize}
+\end{enumerate}
 
 If I have extra time, I will also complete the following tasks:
-\begin{itemize}
-  \item Decide a mechanism for stopping adaption of basins once they have diminishing adaption. 
-  \item We could a delayed acceptance step before computing the MH acceptance probability and doing the MH step. 
+\begin{enumerate}
+  \item \textbf{Include adaption stopping mechanism:} Decide a mechanism for stopping adaption of basins once they have diminishing adaption. 
+  \item \textbf{Include delayed acceptance step:} Decide a delayed acceptance step before computing the MH acceptance probability and doing the MH step. 
   We could use a bogus likelihood for the delayed acceptance step, and then use the actual likelihood for the MH step.
   This would reduce the number of times we need to evaluate the forward map and should increase efficiency 
   with a well chosen bogus likelihood.
-\end{itemize}
+\end{enumerate}
 
 
 % %-------- REFERENCES ---------

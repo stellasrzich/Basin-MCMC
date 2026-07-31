@@ -377,7 +377,7 @@ The algorithm roughly works as follows:
   \mathrm{BasinMCMC}\bigl(\pi(\cdot), \{\pi_{C,x}(\cdot)\}_{x \in \mathcal{X}}, q(\cdot\mid\cdot), n, x^0, N\bigr)$
   
   \textbf{input:} target density $\pi(\cdot)$, 
-  initial basin probability distribution $\pi_{B,0}(\cdot)$ (dependent on representative state $x_0$), 
+  initial basin probability distribution $\pi_{B}(\cdot)$ (dependent on representative state $x^0$), 
   birth/death proposal kernel $q_{Birth/Death}(\cdot\mid\cdot)$, 
   perturb proposal kernel $q_{Perturb}(\cdot\mid\cdot)$, 
   merge/split proposal kernel $q_{Merge/Split}(\cdot\mid\cdot)$, 
@@ -386,7 +386,7 @@ The algorithm roughly works as follows:
   \textbf{output:} ordered list of states $[x^1,\ldots,x^N]$
   
 \begin{algorithmic}[1]
-  \State Initialize list of basins $\mathcal{B}^0 = [B]$ with $B= (x_0, \pi_{B,0}(\cdot), p_{B,0} = 1)$.
+  \State Initialize list of basins $\mathcal{B}^0 = [B]$ with $B=(x^0, \pi_{B}(\cdot), p_{B} = 1)$.
   \For{$j = 0$ to $N-1$}
     \State Given $\mathcal{B}^j$, choose a move from $\{Birth/Death, Perturb, Merge/Split\}$.
     \If{Birth/Death:}

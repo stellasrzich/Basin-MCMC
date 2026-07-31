@@ -415,13 +415,24 @@ The algorithm roughly works as follows:
 
 \subsection{Development}
 \hl{TODO.}
-By construction, if this MCMC will be ergodic as long as the adaption of the probability distribution of the basin 
-eventually stops adapting in some sense. That is, we must be carefully to prove that the adaption ensures that the chain is still ergodic.
 
-As bells and whistles, we could consider the following:
+This can become a fairly sophisticated algorithm. 
+To develop it, I will complete the following tasks:
 \begin{itemize}
-  \item Stop adapting the probability distributions of the basins once they have converged enough.
-  \item Do a delayed acceptance step before computing the MH acceptance probability and doing the MH step. 
+  \item Decide how to choose the initial probability distribution for a basin given an initial representative state
+  \item Decide what the perturb moves should be. That is, decide what the local sampler for each basin should be. This includes how we propose from the basin probability distribution, and how we adapt the basin probability distribution and probability
+  \item Decide what the birth/death move should be
+  \item Decide what the merge/split move should be
+  \item Decide how to choose a move
+  \item Prove that the adaption is diminishing, and so the chain is ergodic. 
+  Note that by construction, this MCMC is ergodic without any adaption 
+  (as long as the birth move shares support with the target density, etc).
+\end{itemize}
+
+If I have extra time, I will also complete the following tasks:
+\begin{itemize}
+  \item Decide a mechanism for stopping adaption of basins once they have diminishing adaption. 
+  \item We could a delayed acceptance step before computing the MH acceptance probability and doing the MH step. 
   We could use a bogus likelihood for the delayed acceptance step, and then use the actual likelihood for the MH step.
   This would reduce the number of times we need to evaluate the forward map and should increase efficiency 
   with a well chosen bogus likelihood.

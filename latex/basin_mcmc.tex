@@ -405,6 +405,7 @@ The algorithm roughly works as follows:
     \EndIf
     \State Accept proposal $\mathcal{B}^{*}$, i.e. set $\mathcal{B}^{j+1} = \mathcal{B}^{*}$, with probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$. 
     \State Otherwise reject $\mathcal{B}^{*}$ and set $\mathcal{B}^{j+1} = \mathcal{B}^j$.
+    \State \hl{Given this acceptance/rejection, adapt the probabilities of the basins in $\mathcal{B}^{j+1}$.}
     \State Set $x^{j+1} = \bigcup_{B \in \mathcal{B}^{j+1}} B$.
   \EndFor
   \end{algorithmic}

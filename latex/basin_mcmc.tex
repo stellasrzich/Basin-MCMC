@@ -346,7 +346,7 @@ To be more precise, a basin $B$ is a set of the following:
     and adapts $\pi_{B}(\cdot)$ with each iteration.}
 \end{itemize}
 
-\subsection{Moves on Basins}
+\subsection{Moves on basins}
 Recall that our original MCMC algorithm worked by doing a mixture of moves between states of the model, 
 such as birth, death, and perturbation moves. The basin MCMC algorithm will work in a similar way, 
 still doing some kind of mixture of moves, but instead we will consider the state of the MCMC 
@@ -411,7 +411,7 @@ The algorithm roughly works as follows:
   \end{algorithmic}
 \end{algorithm}
 
-\subsection{Considerations}
+\subsection{Development}
 \hl{TODO.}
 By construction, if this MCMC will be ergodic as long as the adaption of the probability distribution of the basin 
 eventually stops adapting in some sense. That is, we must be carefully to prove that the adaption ensures that the chain is still ergodic.

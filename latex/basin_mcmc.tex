@@ -304,7 +304,7 @@ The algorithm roughly works as follows:
       \State Compute MH acceptance probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$ for Merge/Split move.
     \EndIf
     \State Accept proposal $\mathcal{B}^{*}$, i.e. set $\mathcal{B}^{j+1} = \mathcal{B}^{*}$, with probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$. 
-    \State Otherwise reject $\mathcal{B}^{*}$ and set $\mathcal{B}^{j+1} = \mathcal{B}^j$.
+    \State Otherwise, reject $\mathcal{B}^{*}$ and set $\mathcal{B}^{j+1} = \mathcal{B}^j$.
     \State Set $x^{j+1} = \bigcup_{B \in \mathcal{B}^{j+1}} B$.
   \EndFor
   \end{algorithmic}

@@ -343,7 +343,7 @@ To be more precise, a basin $B$ is a set of the following:
     \end{itemize}
     \item A \textbf{probability} $p_B$ that the state is in basin $B$ (e.g., it is distributed by $\pi_{B}(\cdot)$).
     \item (Maybe?) a \textbf{local sampler} \hl{that generates samples from the posterior, proposed by $\pi_{B}(\cdot)$, 
-    and adapts $\pi_{B}(\cdot)$ with each iteration.}
+    and adapts $\pi_{B}(\cdot)$ and $p_B$ with each iteration.}
 \end{itemize}
 
 \subsection{Moves on basins}
@@ -357,7 +357,7 @@ The moves we will do on basins are:
 \begin{itemize}
     \item \textbf{Birth move:} add a new basin to the state.
     \item \textbf{Death move:} remove a basin from the state.
-    \item \textbf{Perturb move:} run the local sampler within the basin, adapting the probability distribution of the basin, 
+    \item \textbf{Perturb move:} run the local sampler within the basin, adapting the probability distribution and probability of the basin, 
     and \hl{update the representative state of the basin to be the final state of the local sampler.}
     \item \textbf{Merge move:} merge two basins into one, where the representative state of the new basin is the union of the representative states of the two basins.
     \item \textbf{Split move:} split a basin into two, where the representative state of the new basins is a partition of the representative state of the original basin.
@@ -405,7 +405,7 @@ The algorithm roughly works as follows:
     \EndIf
     \State Accept proposal $\mathcal{B}^{*}$, i.e. set $\mathcal{B}^{j+1} = \mathcal{B}^{*}$, with probability $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$. 
     \State Otherwise reject $\mathcal{B}^{*}$ and set $\mathcal{B}^{j+1} = \mathcal{B}^j$.
-    \State \hl{Given this acceptance/rejection, adapt the probabilities of the basins in $\mathcal{B}^{j+1}$.}
+    \State \hl{Given $\alpha(\mathcal{B}^{*} \mid \mathcal{B}^j)$, adapt the probabilities of the basins in $\mathcal{B}^{j+1}$.}
     \State Set $x^{j+1} = \bigcup_{B \in \mathcal{B}^{j+1}} B$.
   \EndFor
   \end{algorithmic}

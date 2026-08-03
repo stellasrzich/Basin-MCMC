@@ -25,8 +25,7 @@ from bayesian_gpr.forward import render_atom
 
 
 BASIN_DIR = Path(__file__).resolve().parent
-REPO_ROOT = BASIN_DIR.parent
-DATA_DIR = REPO_ROOT / "data"
+DATA_DIR = BASIN_DIR / "data"
 
 PARAMETER_NAMES = ("x0", "depth", "R", "amplitude")
 
@@ -320,7 +319,7 @@ def main() -> None:
     # -------------------------------------------------------------------------
     # User choices
     # -------------------------------------------------------------------------
-    scene_path = DATA_DIR / "birth_scene.npz"
+    scene_path = DATA_DIR / "scene.npz"
     output_path = BASIN_DIR / "atom_curvature.npz"
 
     sigma = 0.02

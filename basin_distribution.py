@@ -14,8 +14,8 @@ has Hessian equal to the Hessian of the log likelihood and has mean
 
     mean = theta + covariance @ gradient_log_posterior.
 
-The atom, noise level, scene path, regularisation, output path, and optional
-finite-difference check are all chosen directly in ``main``.
+The atom, noise level, scene path, regularisation, and output path are all
+chosen directly in ``main``.
 """
 
 from __future__ import annotations
@@ -185,68 +185,6 @@ def analytic_atom_jacobian(
     return rendered, jacobian, derivative_images
 
 
-def finite_difference_atom_jacobian(
-    atom: Atom,
-    scene: Scene,
-    step_sizes: np.ndarray,
-) -> np.ndarray:
-    """Compute a central-finite-difference Jacobian for validation.
-
-    Args:
-        atom: Atom at which to evaluate the finite-difference Jacobian.
-        scene: Scene supplying the forward-model parameters.
-        step_sizes: Positive step sizes for ``(x0, depth, R, amplitude)``.
-
-    Returns:
-        Finite-difference Jacobian with shape ``(Nt * Nx, 4)``.
-    """
-    step_sizes = np.asarray(step_sizes, dtype=float)
-    if step_sizes.shape != (4,) or np.any(step_sizes <= 0.0):
-        raise ValueError("step_sizes must contain four positive values")
-
-    theta = np.array(
-        [atom.x0, atom.depth, atom.R, atom.amplitude],
-        dtype=float,
-    )
-    jacobian = np.empty((scene.grid.Nt * scene.grid.Nx, 4), dtype=float)
-
-    def make_atom(values: np.ndarray) -> Atom:
-        """Return an atom from a parameter vector."""
-        return Atom(
-            x0=float(values[0]),
-            depth=float(values[1]),
-            R=float(values[2]),
-            amplitude=float(values[3]),
-            eps_r=atom.eps_r,
-        )
-
-    for parameter_index, step_size in enumerate(step_sizes):
-        plus = theta.copy()
-        minus = theta.copy()
-        plus[parameter_index] += step_size
-        minus[parameter_index] -= step_size
-
-        if parameter_index == 2 and minus[parameter_index] < 0.0:
-            raise ValueError("Radius finite-difference step crosses R = 0")
-
-        image_plus = render_atom(
-            make_atom(plus),
-            scene.grid,
-            scene.wavelet,
-            scene.soil,
-        )
-        image_minus = render_atom(
-            make_atom(minus),
-            scene.grid,
-            scene.wavelet,
-            scene.soil,
-        )
-        derivative_image = (image_plus - image_minus) / (2.0 * step_size)
-        jacobian[:, parameter_index] = derivative_image.ravel()
-
-    return jacobian
-
-
 def compute_atom_curvature(
     sigma: float,
     atom: Atom,
@@ -363,8 +301,6 @@ def main() -> None:
     sigma = 0.02
     lambda_r = 10.0
     regularization = 0.0
-    check_finite_differences = True
-    finite_difference_relative_step = 1e-5
 
     atom = Atom(
         x0=25.0,
@@ -405,38 +341,6 @@ def main() -> None:
     print(result.precision_eigenvalues)
     print(f"Condition number: {result.condition_number:.6g}")
     print(f"Residual L2 norm: {np.linalg.norm(result.residual):.6g}")
-
-    # Compare the analytic Jacobian against central finite differences.
-    if check_finite_differences:
-        theta = np.array(
-            [atom.x0, atom.depth, atom.R, atom.amplitude],
-            dtype=float,
-        )
-        step_sizes = finite_difference_relative_step * np.maximum(
-            1.0,
-            np.abs(theta),
-        )
-
-        # Keep the central radius perturbation inside the support R >= 0.
-        if atom.R > 0.0:
-            step_sizes[2] = min(step_sizes[2], 0.25 * atom.R)
-
-        numeric_jacobian = finite_difference_atom_jacobian(
-            atom,
-            scene,
-            step_sizes,
-        )
-        difference = result.jacobian - numeric_jacobian
-        relative_error = np.linalg.norm(difference) / max(
-            np.linalg.norm(numeric_jacobian),
-            np.finfo(float).eps,
-        )
-        maximum_absolute_error = float(np.max(np.abs(difference)))
-
-        print("\nFinite-difference check:")
-        print("  step sizes:", step_sizes)
-        print(f"  relative Frobenius error: {relative_error:.6g}")
-        print(f"  maximum absolute error:   {maximum_absolute_error:.6g}")
 
     # -------------------------------------------------------------------------
     # Save results

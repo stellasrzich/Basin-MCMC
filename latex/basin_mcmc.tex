@@ -236,8 +236,11 @@ To be more precise, a basin $B$ is a set of the following:
     \item A \textbf{probability distribution} $\pi_{B}(\cdot)$ over states. We can think of this as consisting of:
     \begin{itemize}
       \item A \textbf{sequence of probability distributions} $\{\pi_{B,n}(\cdot)\}_{n \in \N}$ each over the set of states with $n$ atoms $\mathcal{X}_n$. 
-      Note that in cases where the order of states does not matter (as it does not in our GPR application), each $\pi_{B,n}(\cdot)$ 
-      can be entirely characterised as a distribution over each component of an atom. 
+      Note that in cases where the order of states does not matter (as it does not in our GPR application), 
+      $\pi_{B,n}(\cdot)$ should be exchangeable. 
+      Thus, for each $n$, every atom has the same marginal distribution, 
+      and $\pi_{B,n}(\cdot)$ can be characterised by a distribution over the components of an 
+      individual atom together with a dependence structure between the $n$ atoms.
       \item A \textbf{sequence of probabilities} $\{p_{B,n}\}_{n \in \N}$ each defining the probability of a state having $n$ atoms, given the state is in basin $B$ (e.g., it is distributed by $\pi_{B}(\cdot)$).
     \end{itemize}
     \item A \textbf{probability} $p_B$ that the state is in basin $B$ (e.g., it is distributed by $\pi_{B}(\cdot)$).

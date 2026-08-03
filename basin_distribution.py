@@ -44,7 +44,6 @@ class CurvatureResult:
         rendered: Forward-map output evaluated at the chosen atom.
         residual: Difference between ``rendered`` and ``data``.
         jacobian: Analytic forward-map Jacobian with shape ``(Nt * Nx, 4)``.
-        derivative_images: One derivative image per atom parameter.
         gradient_log_likelihood: Gradient of the Gaussian log likelihood.
         gradient_log_prior: Gradient of the log prior.
         gradient_log_posterior: Gradient of the log posterior.
@@ -60,7 +59,6 @@ class CurvatureResult:
     rendered: np.ndarray
     residual: np.ndarray
     jacobian: np.ndarray
-    derivative_images: np.ndarray
     gradient_log_likelihood: np.ndarray
     gradient_log_prior: np.ndarray
     gradient_log_posterior: np.ndarray
@@ -110,7 +108,7 @@ def analytic_atom_jacobian(
         scene: Scene supplying the grid, wavelet, and soil parameters.
 
     Returns:
-        Rendered one-atom B-scan, analytic Jacobian, and derivative images.
+        Rendered one-atom B-scan and analytic Jacobian.
     """
     x_axis = np.asarray(scene.grid.x_axis, dtype=float)
     t_axis = np.asarray(scene.grid.t_axis, dtype=float)
@@ -182,7 +180,7 @@ def analytic_atom_jacobian(
     )
     jacobian = derivative_images.reshape(4, -1).T
 
-    return rendered, jacobian, derivative_images
+    return rendered, jacobian
 
 
 def compute_atom_curvature(
@@ -234,7 +232,7 @@ def compute_atom_curvature(
     # The analytic renderer and render_atom should agree. We use render_atom to
     # define the synthetic observed data exactly as the model code does.
     data = render_atom(atom, scene.grid, scene.wavelet, scene.soil)
-    rendered, jacobian, derivative_images = analytic_atom_jacobian(atom, scene)
+    rendered, jacobian = analytic_atom_jacobian(atom, scene)
     residual = rendered - data
 
     gradient_log_likelihood = -(jacobian.T @ residual.ravel()) / sigma**2
@@ -270,7 +268,6 @@ def compute_atom_curvature(
         rendered=rendered,
         residual=residual,
         jacobian=jacobian,
-        derivative_images=derivative_images,
         gradient_log_likelihood=gradient_log_likelihood,
         gradient_log_prior=gradient_log_prior,
         gradient_log_posterior=gradient_log_posterior,
@@ -357,7 +354,6 @@ def main() -> None:
         rendered=result.rendered,
         residual=result.residual,
         jacobian=result.jacobian,
-        derivative_images=result.derivative_images,
         gradient_log_likelihood=result.gradient_log_likelihood,
         gradient_log_prior=result.gradient_log_prior,
         gradient_log_posterior=result.gradient_log_posterior,

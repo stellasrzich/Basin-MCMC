@@ -1,12 +1,12 @@
 """Given one atom, compute the Laplace approximation to the posterior at 
 that atom, where the observed data is defined to be the noise-free data generated 
-by the chosen atom ``theta_0 = (x0, depth, R, amplitude)``.
+by the chosen atom ``theta_0``.
 
 The Laplace approximation is a local quadratic approximation to the log posterior
-of the from 
+of the form 
 
     log p(theta | data) ≈ log p(theta_0 | data) 
-                        + g @ (theta - theta_0) 
+                        + g.T @ (theta - theta_0) 
                         - 0.5 * (theta - theta_0).T @ P @ (theta - theta_0),
                         
 where ``g`` is the gradient of the log posterior and ``P`` is the negative 
@@ -16,13 +16,10 @@ Completing the square, this can be rewritten as
 
     log p(theta | data) ≈ log p(theta_0 | data) + 0.5*g.T @ inv(P) @ g
                         - 0.5 * (theta - (theta_0 + inv(P) @ g)).T @ P @ (theta - (theta_0 + inv(P) @ g))
-                        = C + 0.5 * (theta - (theta_0 + inv(P) @ g)).T @ P @ (theta - (theta_0 + inv(P) @ g)).
+                        = C - 0.5 * (theta - (theta_0 + inv(P) @ g)).T @ P @ (theta - (theta_0 + inv(P) @ g)).
 
 One can show that, the gradient of the log likelihood is zero and 
-the Hessian of the log likelihood is
-
-    d^2 log p(data | theta) / d theta^2 = -J.T @ J / sigma**2,
-
+the Hessian of the log likelihood is equal to ``-J.T @ J / sigma**2`` at ``theta_0``.
 where ``J`` is the analytic Jacobian of the forward map with respect to
 ``theta = (x0, depth, R, amplitude)``. 
 
@@ -31,7 +28,7 @@ The Hessian of the log posterior is therefore just the Hessian of the log likeli
 and the gradient of the log posterior is just the gradient of the log prior.
 
 The Laplace approximation to the posterior is therefore a Gaussian with 
-covariance ``inv(P)``equal to the inverse of the negative Hessian of the log likelihood, 
+covariance ``inv(P)`` equal to the inverse of the negative Hessian of the log likelihood, 
 and mean equal to ``theta_0 + inv(P) @ g`` where ``g`` is the gradient of the log prior.
 
 The atom, noise level, scene path, and output path are all chosen directly in ``main``.

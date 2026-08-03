@@ -236,7 +236,7 @@ def compute_laplace_approximation(
     mean = theta + covariance @ gradient_log_posterior
 
     return LaplaceApproximation(
-        atom = theta, #TODO: HERE
+        atom = atom,
         jacobian = jacobian,
         gradient_log_posterior = gradient_log_posterior,
         mean = mean,
@@ -308,7 +308,7 @@ def main() -> None:
         parameter_names=np.array(PARAMETER_NAMES),
         sigma=sigma,
         lambda_r=lambda_r,
-        atom=np.array([atom.x0, atom.depth, atom.R, atom.amplitude]), #TODO: HERE
+        atom=np.array([atom.x0, atom.depth, atom.R, atom.amplitude]),
         jacobian=result.jacobian,
         gradient_log_posterior=result.gradient_log_posterior,
         mean=result.mean,

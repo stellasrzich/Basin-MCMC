@@ -181,7 +181,7 @@ def compute_laplace_approximation(
     *,
     lambda_r: float = 10.0,
 ) -> LaplaceApproximation:
-    """Compute the one-atom Jacobian, Hessian, and covariance.
+    """Compute the one-atom Jacobian, Hessian, and covariance. TODO: CHANGE DOCSTRING
 
     The data are always generated from the same atom at which the derivatives
     are evaluated:
@@ -226,7 +226,7 @@ def compute_laplace_approximation(
     condition_number = float(np.linalg.cond(precision))
 
     # Use the pseudoinverse because a parameter direction may be locally
-    # unidentifiable, in which case the negative Hessian is singular.
+    # unidentifiable, in which case the precision matrix is singular.
     covariance = np.linalg.pinv(precision, hermitian=True)
 
     theta = np.array(
@@ -285,15 +285,15 @@ def main() -> None:
     )
 
     print("Parameter order:", PARAMETER_NAMES)
-    print("Representative atom:")
+    print("Atom:")
     print(np.array([atom.x0, atom.depth, atom.R, atom.amplitude]))
     print("\nGradient of log posterior:")
     print(result.gradient_log_posterior)
-    print("\nRecentered Gaussian mean:")
+    print("\nMean:")
     print(result.mean)
     print("\nPrecision:")
     print(result.precision)
-    print("\nLocal covariance (Moore--Penrose inverse of precision):")
+    print("\nCovariance (Moore--Penrose inverse of precision):")
     print(result.covariance)
     print("\nPrecision eigenvalues:")
     print(result.precision_eigenvalues)

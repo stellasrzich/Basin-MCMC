@@ -14,8 +14,7 @@ has Hessian equal to the Hessian of the log likelihood and has mean
 
     mean = theta + covariance @ gradient_log_posterior.
 
-The atom, noise level, scene path, regularisation, and output path are all
-chosen directly in ``main``.
+The atom, noise level, scene path, and output path are all chosen directly in ``main``.
 """
 
 from __future__ import annotations
@@ -47,7 +46,7 @@ class CurvatureResult:
         gradient_log_likelihood: Gradient of the Gaussian log likelihood.
         gradient_log_prior: Gradient of the log prior.
         gradient_log_posterior: Gradient of the log posterior.
-        gaussian_mean: Mean of the Laplace approximation to the posterior.
+        mean: Mean of the Laplace approximation to the posterior.
         negative_hessian: Negative Hessian of the log posterior.
         hessian_log_likelihood: Hessian of the log likelihood.
         covariance: Moore--Penrose inverse of the negative Hessian.
@@ -62,7 +61,7 @@ class CurvatureResult:
     gradient_log_likelihood: np.ndarray
     gradient_log_prior: np.ndarray
     gradient_log_posterior: np.ndarray
-    gaussian_mean: np.ndarray
+    mean: np.ndarray
     negative_hessian: np.ndarray
     hessian_log_likelihood: np.ndarray
     covariance: np.ndarray
@@ -189,7 +188,6 @@ def compute_atom_curvature(
     scene: Scene,
     *,
     lambda_r: float = 10.0,
-    regularization: float = 0.0,
 ) -> CurvatureResult:
     """Compute the one-atom Jacobian, Hessian, and local covariance.
 
@@ -206,9 +204,9 @@ def compute_atom_curvature(
 
     Completing the square gives the recentered local Gaussian
 
-        N(gaussian_mean, covariance),
+        N(mean, covariance),
 
-    where ``gaussian_mean = theta + covariance @ gradient_log_posterior``.
+    where ``mean = theta + covariance @ gradient_log_posterior``.
 
     Args:
         sigma: Standard deviation of the additive Gaussian noise model.
@@ -216,8 +214,6 @@ def compute_atom_curvature(
             point at which curvature is calculated.
         scene: Scene supplying the grid, wavelet, and soil parameters.
         lambda_r: Rate of the exponential prior on the radius.
-        regularization: Nonnegative diagonal ridge added to the negative
-            Hessian before computing its inverse.
 
     Returns:
         One-atom curvature results.
@@ -226,8 +222,6 @@ def compute_atom_curvature(
         raise ValueError("sigma must be finite and positive")
     if lambda_r < 0.0 or not np.isfinite(lambda_r):
         raise ValueError("lambda_r must be finite and nonnegative")
-    if regularization < 0.0:
-        raise ValueError("regularization must be nonnegative")
 
     # The analytic renderer and render_atom should agree. We use render_atom to
     # define the synthetic observed data exactly as the model code does.
@@ -244,11 +238,6 @@ def compute_atom_curvature(
 
     negative_hessian = (jacobian.T @ jacobian) / sigma**2
 
-    if regularization > 0.0:
-        negative_hessian = (
-            negative_hessian + regularization * np.eye(len(PARAMETER_NAMES))
-        )
-
     hessian = -negative_hessian
     eigenvalues = np.linalg.eigvalsh(negative_hessian)
     condition_number = float(np.linalg.cond(negative_hessian))
@@ -261,7 +250,7 @@ def compute_atom_curvature(
         [atom.x0, atom.depth, atom.R, atom.amplitude],
         dtype=float,
     )
-    gaussian_mean = theta + covariance @ gradient_log_posterior
+    mean = theta + covariance @ gradient_log_posterior
 
     return CurvatureResult(
         data=data,
@@ -271,7 +260,7 @@ def compute_atom_curvature(
         gradient_log_likelihood=gradient_log_likelihood,
         gradient_log_prior=gradient_log_prior,
         gradient_log_posterior=gradient_log_posterior,
-        gaussian_mean=gaussian_mean,
+        mean=mean,
         negative_hessian=negative_hessian,
         hessian_log_likelihood=hessian,
         covariance=covariance,
@@ -297,7 +286,6 @@ def main() -> None:
 
     sigma = 0.02
     lambda_r = 10.0
-    regularization = 0.0
 
     atom = Atom(
         x0=25.0,
@@ -316,7 +304,6 @@ def main() -> None:
         atom,
         scene,
         lambda_r=lambda_r,
-        regularization=regularization,
     )
 
     print("Parameter order:", PARAMETER_NAMES)
@@ -329,7 +316,7 @@ def main() -> None:
     print("\nGradient of log posterior:")
     print(result.gradient_log_posterior)
     print("\nRecentered Gaussian mean:")
-    print(result.gaussian_mean)
+    print(result.mean)
     print("\nNegative Hessian / precision:")
     print(result.negative_hessian)
     print("\nLocal covariance (Moore--Penrose inverse of precision):")
@@ -349,7 +336,7 @@ def main() -> None:
         atom=np.array([atom.x0, atom.depth, atom.R, atom.amplitude]),
         sigma=sigma,
         lambda_r=lambda_r,
-        gaussian_mean=result.gaussian_mean,
+        mean=result.mean,
         data=result.data,
         rendered=result.rendered,
         residual=result.residual,

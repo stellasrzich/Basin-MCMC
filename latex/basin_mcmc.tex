@@ -379,35 +379,36 @@ is the gradient of the log posterior and
 \[
 P=-\nabla^2\log p(\theta_0\mid y)
 \]
-is the negative Hessian, or local precision matrix.
+is the negative Hessian, or precision matrix.
 
 \subsubsection*{Gradient of the log posterior}
-Let
+The gradient of the log posterior is given by
 \[
-e(\theta)=y-A(\theta)
+g 
+= \nabla\log p(\theta\mid y)
+=
+\nabla\log p(y\mid\theta)
++
+\nabla\log p(\theta).
 \]
-and let
-\[
-J(\theta)=\frac{\partial A(\theta)}{\partial\theta}
-\]
-denote the Jacobian of the forward map. The gradient of the log
-likelihood is
+
+The gradient of the log likelihood is
 \[
 \nabla\log p(y\mid\theta)
 =
-\frac{1}{\sigma^2}J(\theta)^{\mathsf T}e(\theta).
+\frac{1}{\sigma^2}J(\theta)^{\mathsf T}e(\theta),
 \]
-Since \(y=A(\theta_0)\), the residual vanishes at the expansion point, i.e. $e(\theta_0)=0$.
-Thus,
+where $e(\theta)=y-A(\theta)$ and $J(\theta)=\frac{\partial A(\theta)}{\partial\theta}$ 
+is the Jacobian of the forward map.
+Since $y=A(\theta_0)$ gives $e(\theta_0)=0$, we have that 
 \[
-\nabla\log p(y\mid\theta_0)=0,
+  \nabla\log p(y\mid\theta_0) = 0.
 \]
-and hence the gradient of the log posterior is simply the gradient of the log
+
+Thus, the gradient of the log posterior is simply the gradient of the log
 prior,
 \[
 g
-=
-\nabla\log p(\theta_0\mid y)
 =
 \nabla\log p(\theta_0).
 \]

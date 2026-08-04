@@ -1,9 +1,9 @@
-"""Given one atom, compute the Laplace approximation to the posterior at 
+"""Given one atom, compute the quadratic approximation to the posterior at 
 that atom, where the observed data is defined to be the noise-free data generated 
 by the chosen atom ``theta_0``.
 
-The Laplace approximation is a local quadratic approximation to the log posterior
-of the form 
+The quadratic approximation is a second-order quadratic approximation to the log 
+posterior around the atom ``theta_0``, of the form 
 
     log p(theta | data) ≈ log p(theta_0 | data) 
                         + g.T @ (theta - theta_0) 
@@ -27,7 +27,7 @@ The exponential radius prior gives the log prior a nonzero gradient and zero Hes
 The Hessian of the log posterior is therefore just the Hessian of the log likelihood, 
 and the gradient of the log posterior is just the gradient of the log prior.
 
-The Laplace approximation to the posterior is therefore a Gaussian with 
+The quadratic approximation to the posterior is therefore a Gaussian with 
 covariance ``inv(P)`` equal to the inverse of the negative Hessian of the log likelihood, 
 and mean equal to ``theta_0 + inv(P) @ g`` where ``g`` is the gradient of the log prior.
 
@@ -52,14 +52,14 @@ PARAMETER_NAMES = ("x0", "depth", "R", "amplitude")
 
 
 @dataclass(frozen=True)
-class LaplaceApproximation:
-    """Store a one-atom Laplace approximation and supporting quantities.
+class QuadraticApproximation:
+    """Store a one-atom quadratic approximation and supporting quantities.
 
     Attributes:
         atom: Chosen representative atom.
         jacobian: Analytic forward-map Jacobian with shape ``(Nt * Nx, 4)``.
         gradient_log_posterior: Gradient of the log posterior at the representative atom.
-        mean: Mean of the Gaussian Laplace approximation.
+        mean: Mean of the Gaussian quadratic approximation.
         precision: Negative Hessian of the log posterior.
         covariance: Moore--Penrose pseudoinverse of the precision matrix.
         precision_eigenvalues: Eigenvalues of the precision matrix.
@@ -190,18 +190,18 @@ def analytic_atom_jacobian(
     return jacobian
 
 
-def compute_laplace_approximation(
+def compute_Quadratic_approximation(
     sigma: float,
     atom: Atom,
     scene: Scene,
     *,
     lambda_r: float = 10.0,
-) -> LaplaceApproximation:
-    """Given one atom, compute the Laplace approximation to the posterior at 
+) -> QuadraticApproximation:
+    """Given one atom, compute the quadratic approximation to the posterior at 
     that atom, where the observed data is defined to be the noise-free data generated 
     by the chosen atom ``theta_0 = (x0, depth, R, amplitude)``.
     
-    The Laplace approximation is a local quadratic approximation to the log posterior
+    The quadratic approximation is a local quadratic approximation to the log posterior
     of the from 
     
         log p(theta | data) ≈ log p(theta_0 | data) 
@@ -229,13 +229,13 @@ def compute_laplace_approximation(
     The Hessian of the log posterior is therefore just the Hessian of the log likelihood, 
     and the gradient of the log posterior is just the gradient of the log prior.
     
-    The Laplace approximation to the posterior is therefore a Gaussian with 
+    The quadratic approximation to the posterior is therefore a Gaussian with 
     covariance ``inv(P)``equal to the inverse of the negative Hessian of the log likelihood, 
     and mean equal to ``theta_0 + inv(P) @ g`` where ``g`` is the gradient of the log prior.
 
     The atom, noise level, scene path, and output path are all chosen directly in ``main``.
     """
-    """Given one atom, compute the Laplace approximation to the posterior at 
+    """Given one atom, compute the quadratic approximation to the posterior at 
     that atom, where the observed data is defined to be the noise-free data generated 
     by the chosen atom.
     
@@ -266,7 +266,7 @@ def compute_laplace_approximation(
         lambda_r: Rate of the exponential prior on the radius.
 
     Returns:
-        one-atom Laplace approximation and supporting quantities.
+        one-atom quadratic approximation and supporting quantities.
     """
     if sigma <= 0.0 or not np.isfinite(sigma):
         raise ValueError("sigma must be finite and positive")
@@ -293,7 +293,7 @@ def compute_laplace_approximation(
     )
     mean = theta + covariance @ gradient_log_posterior
 
-    return LaplaceApproximation(
+    return QuadraticApproximation(
         atom = atom,
         jacobian = jacobian,
         gradient_log_posterior = gradient_log_posterior,
@@ -306,7 +306,7 @@ def compute_laplace_approximation(
 
 
 def main() -> None:
-    """Choose an atom and compute its local Laplace approximation.
+    """Choose an atom and compute its local quadratic approximation.
 
     Args:
         None.
@@ -332,10 +332,10 @@ def main() -> None:
     )
 
     # -------------------------------------------------------------------------
-    # Laplace approximation
+    # quadratic approximation
     # -------------------------------------------------------------------------
     scene = Scene.load(scene_path)
-    result = compute_laplace_approximation(
+    result = compute_Quadratic_approximation(
         sigma,
         atom,
         scene,

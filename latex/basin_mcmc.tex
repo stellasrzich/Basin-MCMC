@@ -385,11 +385,11 @@ is the negative Hessian, or precision matrix.
 The gradient of the log posterior is given by
 \[
 g 
-= \nabla\log p(\theta\mid y)
+= \nabla\log p(\theta_0\mid y)
 =
-\nabla\log p(y\mid\theta)
+\nabla\log p(y\mid\theta_0)
 +
-\nabla\log p(\theta).
+\nabla\log p(\theta_0).
 \]
 
 The gradient of the log likelihood is
@@ -432,39 +432,40 @@ g
 \]
 
 \subsubsection*{Hessian of the log posterior}
-Differentiating the likelihood gradient gives
+The negative Hessian of the log posterior is given by
+\[
+P = -\nabla^2\log p(\theta_0\mid y)
+=
+-\nabla^2\log p(y\mid\theta_0)
+-\nabla^2\log p(\theta_0).
+\]
+The uniform priors have zero Hessian in the interior of their supports, and the
+log of the exponential radius prior is linear in \(r\), and so
+\[
+\nabla^2\log p(\theta_0)=0.
+\]
+
+Thus, the negative Hessian of the log posterior is simply the negative Hessian of the log likelihood,
+\[
+P = -\nabla^2\log p(y\mid\theta_0).
+\]
+Differentiating the log likelihood gradient gives
 \[
 \nabla^2\log p(y\mid\theta)
 =
 -\frac{1}{\sigma^2}J(\theta)^{\mathsf T}J(\theta)
 +
 \frac{1}{\sigma^2}
-\sum_k e_k(\theta)\nabla^2A_k(\theta).
-\]
-At \(\theta=\theta_0\), the residual is zero, so the second term vanishes
-exactly,
-\[
-\nabla^2\log p(y\mid\theta_0)
-=
--\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
+\sum_k e_k(\theta)\nabla^2A_k(\theta) 
+= -\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
 \qquad
-J_0:=J(\theta_0).
+J_0:=J(\theta_0),
 \]
+recalling that $e(\theta_0)=0$.
 
-The uniform priors have zero Hessian in the interior of their supports, and the
-exponential radius prior is linear in \(r\) on the log scale,
-\[
-\log p(r)=\log\lambda_r-\lambda_r r.
-\]
-Therefore,
-\[
-\nabla^2\log p(\theta_0)=0.
-\]
-It follows that the local precision matrix is
+It follows that the negative Hessian of the log posterior is
 \[
 P
-=
--\nabla^2\log p(\theta_0\mid y)
 =
 \frac{1}{\sigma^2}J_0^{\mathsf T}J_0.
 \]

@@ -190,7 +190,7 @@ def analytic_atom_jacobian(
     return jacobian
 
 
-def compute_Quadratic_approximation(
+def compute_quadratic_approximation(
     sigma: float,
     atom: Atom,
     scene: Scene,
@@ -281,7 +281,7 @@ def main() -> None:
     # Quadratic approximation
     # -------------------------------------------------------------------------
     scene = Scene.load(scene_path)
-    result = compute_Quadratic_approximation(
+    result = compute_quadratic_approximation(
         sigma,
         atom,
         scene,

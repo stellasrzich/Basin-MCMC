@@ -487,16 +487,17 @@ Thus, after restricting it to the valid parameter domain, the local basin
 approximation is a truncated Gaussian with mean parameter \(\mu\) and covariance
 parameter \(\Sigma\).
 
-In the implementation, \(P^{-1}\) is replaced numerically by the
-Moore--Penrose pseudoinverse \(P^{+}\),
+In the implementation, the Moore--Penrose pseudoinverse \(P^{+}\) is used in
+place of \(P^{-1}\) for numerical robustness when \(P\) is ill-conditioned:
 \[
 \mu=\theta_0+P^{+}g,
 \qquad
-\Sigma=P^{+},
+\Sigma=P^{+}.
 \]
-to handle directions that are very weakly identified. If \(P\) is genuinely
-singular, however, this does not define a proper Gaussian density on
-\(\mathbb{R}^4\).
+If all eigenvalues of \(P\) are positive, this agrees with \(P^{-1}\), up to
+the numerical tolerance used in computing the pseudoinverse. Small eigenvalues
+correspond to weakly identified directions and therefore large local posterior
+variances.
 
 \subsubsection*{Analytic forward-map Jacobian}
 To compute \(P\), we require the Jacobian of the forward map. At horizontal grid

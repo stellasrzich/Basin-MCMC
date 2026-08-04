@@ -468,7 +468,7 @@ P
 \frac{1}{\sigma^2}J_0^{\mathsf T}J_0.
 \]
 
-Completing the square in the quadratic approximation gives
+If \(P\) is positive definite, completing the square gives
 \[
 \log p(\theta\mid y)
 \approx
@@ -476,15 +476,24 @@ C-\frac12(\theta-\mu)^{\mathsf T}P(\theta-\mu),
 \]
 where
 \[
+\mu=\theta_0+P^{-1}g,
+\qquad
+\Sigma=P^{-1}.
+\]
+Thus, after restricting it to the valid parameter domain, the local basin
+approximation is a truncated Gaussian with mean parameter \(\mu\) and covariance
+parameter \(\Sigma\).
+
+In the implementation, \(P^{-1}\) is replaced numerically by the
+Moore--Penrose pseudoinverse \(P^{+}\),
+\[
 \mu=\theta_0+P^{+}g,
 \qquad
-\Sigma=P^{+}.
+\Sigma=P^{+},
 \]
-Here \(P^{+}\) denotes the Moore--Penrose pseudoinverse. It is used because a
-locally unidentifiable parameter direction may make \(P\) singular or nearly
-singular. The resulting local basin approximation is therefore Gaussian with
-mean \(\mu\) and covariance \(\Sigma\), interpreted locally and restricted to the
-valid parameter domain.
+to handle directions that are very weakly identified. If \(P\) is genuinely
+singular, however, this does not define a proper Gaussian density on
+\(\mathbb{R}^4\).
 
 \subsection*{Analytic forward-map Jacobian}
 To compute \(P\), we require the Jacobian of the forward map. At horizontal grid

@@ -1,4 +1,4 @@
-"""Given one atom, compute the quadratic approximation to the posterior at 
+"""Given one atom, compute the quadratic approximation to the log posterior around 
 that atom, where the observed data is defined to be the noise-free data generated 
 by the chosen atom ``theta_0``.
 
@@ -27,8 +27,8 @@ The exponential radius prior gives the log prior a nonzero gradient and zero Hes
 The Hessian of the log posterior is therefore just the Hessian of the log likelihood, 
 and the gradient of the log posterior is just the gradient of the log prior.
 
-The quadratic approximation to the posterior is therefore a Gaussian with 
-covariance ``inv(P)`` equal to the inverse of the negative Hessian of the log likelihood, 
+The approximation to the posterior is therefore a Gaussian with covariance 
+``inv(P)`` equal to the inverse of the negative Hessian of the log likelihood, 
 and mean equal to ``theta_0 + inv(P) @ g`` where ``g`` is the gradient of the log prior.
 
 The atom, noise level, scene path, and output path are all chosen directly in ``main``.
@@ -197,76 +197,22 @@ def compute_Quadratic_approximation(
     *,
     lambda_r: float = 10.0,
 ) -> QuadraticApproximation:
-    """Given one atom, compute the quadratic approximation to the posterior at 
+    """Given one atom, compute the quadratic approximation to the log posterior around 
     that atom, where the observed data is defined to be the noise-free data generated 
-    by the chosen atom ``theta_0 = (x0, depth, R, amplitude)``.
+    by the chosen atom ``theta_0``.
     
-    The quadratic approximation is a local quadratic approximation to the log posterior
-    of the from 
-    
-        log p(theta | data) ≈ log p(theta_0 | data) 
-                            + g @ (theta - theta_0) 
-                            - 0.5 * (theta - theta_0).T @ P @ (theta - theta_0),
-                            
-    where ``g`` is the gradient of the log posterior and ``P`` is the negative 
-    Hessian of the log posterior, both evaluated at ``theta_0``.
-
-    Completing the square, this can be rewritten as 
-    
-        log p(theta | data) ≈ log p(theta_0 | data) + 0.5*g.T @ inv(P) @ g
-                            - 0.5 * (theta - (theta_0 + inv(P) @ g)).T @ P @ (theta - (theta_0 + inv(P) @ g))
-                            = C + 0.5 * (theta - (theta_0 + inv(P) @ g)).T @ P @ (theta - (theta_0 + inv(P) @ g)).
-    
-    One can show that, the gradient of the log likelihood is zero and 
-    the Hessian of the log likelihood is
-
-        d^2 log p(data | theta) / d theta^2 = -J.T @ J / sigma**2,
-
-    where ``J`` is the analytic Jacobian of the forward map with respect to
-    ``theta = (x0, depth, R, amplitude)``. 
-    
-    The exponential radius prior gives the log prior a nonzero gradient and zero Hessian. 
-    The Hessian of the log posterior is therefore just the Hessian of the log likelihood, 
-    and the gradient of the log posterior is just the gradient of the log prior.
-    
-    The quadratic approximation to the posterior is therefore a Gaussian with 
-    covariance ``inv(P)``equal to the inverse of the negative Hessian of the log likelihood, 
-    and mean equal to ``theta_0 + inv(P) @ g`` where ``g`` is the gradient of the log prior.
-
-    The atom, noise level, scene path, and output path are all chosen directly in ``main``.
-    """
-    """Given one atom, compute the quadratic approximation to the posterior at 
-    that atom, where the observed data is defined to be the noise-free data generated 
-    by the chosen atom.
-    
-    To do so, we compute the 
-
-    The data are always generated from the same atom at which the derivatives
-    are evaluated:
-
-        data = A(atom).
-
-    Consequently, the residual is zero and the exact Hessian of the Gaussian
-    log likelihood is ``-J.T @ J / sigma**2``. The uniform priors add no 
-    gradient or Hessian curvature. The exponential radius prior has log
-    density ``constant - lambda_r * R``. It therefore contributes ``-lambda_r``
-    to the radius component of the gradient, but contributes no Hessian curvature.
-
-    Completing the square gives the recentered local Gaussian
-
-        N(mean, covariance),
-
-    where ``mean = theta + covariance @ gradient_log_posterior``.
+    To do so, we compute the gradient of the log prior and the negative Hessian of the log likelihood,
+    and then use these to compute the covariance and mean of the quadratic approximation.
 
     Args:
         sigma: Standard deviation of the additive Gaussian noise model.
         atom: Representative atom defining both the synthetic data and the
-            point at which curvature is calculated.
+            point at which the quadratic approximation is expanded.
         scene: Scene supplying the grid, wavelet, and soil parameters.
         lambda_r: Rate of the exponential prior on the radius.
 
     Returns:
-        one-atom quadratic approximation and supporting quantities.
+        QuadraticApproximation object containing the quadratic approximation and supporting quantities.
     """
     if sigma <= 0.0 or not np.isfinite(sigma):
         raise ValueError("sigma must be finite and positive")
@@ -332,7 +278,7 @@ def main() -> None:
     )
 
     # -------------------------------------------------------------------------
-    # quadratic approximation
+    # Quadratic approximation
     # -------------------------------------------------------------------------
     scene = Scene.load(scene_path)
     result = compute_Quadratic_approximation(

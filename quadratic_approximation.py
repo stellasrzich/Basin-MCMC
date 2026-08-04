@@ -264,7 +264,7 @@ def main() -> None:
     # User choices
     # -------------------------------------------------------------------------
     scene_path = DATA_DIR / "scene.npz"
-    output_path = BASIN_DIR / "atom_curvature.npz"
+    output_path = BASIN_DIR / "quadratic_approximation.npz"
 
     sigma = 0.02
     lambda_r = 10.0

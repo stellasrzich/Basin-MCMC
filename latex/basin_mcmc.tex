@@ -456,18 +456,19 @@ Differentiating the log likelihood gradient gives
 -\frac{1}{\sigma^2}J(\theta)^{\mathsf T}J(\theta)
 +
 \frac{1}{\sigma^2}
-\sum_k e_k(\theta)\nabla^2A_k(\theta) 
-= -\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
-\qquad
-J_0:=J(\theta_0),
+\sum_k e_k(\theta)\nabla^2A_k(\theta).
+\] 
+At $\theta=\theta_0$, recalling that $e(\theta_0)=0$, we have
+\[
+\nabla^2\log p(y\mid\theta_0)
+= -\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
 \]
-recalling that $e(\theta_0)=0$.
 
 It follows that the negative Hessian of the log posterior is
 \[
 P
 =
-\frac{1}{\sigma^2}J_0^{\mathsf T}J_0.
+\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
 \]
 
 If \(P\) is positive definite, completing the square gives

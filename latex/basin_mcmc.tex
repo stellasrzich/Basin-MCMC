@@ -526,8 +526,8 @@ w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
 Applying the product and chain rules gives
 \begin{align*}
 \frac{\partial A(t,x;\theta)}{\partial x_0}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial d}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial R}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial d}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial R}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
 \frac{\partial A(t,x;\theta)}{\partial a}&=B\,w(t-T(x)).
 \end{align*}
 Vectorising these four derivative images gives the four columns of \(J_0\). The

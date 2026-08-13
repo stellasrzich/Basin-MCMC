@@ -500,107 +500,36 @@ correspond to weakly identified directions and therefore large local posterior
 variances.
 
 \subsubsection*{Analytic forward-map Jacobian}
-To compute \(P\), we require the Jacobian of the forward map. At horizontal grid
-point \(x\), define
-\[
-h=d+r,
-\qquad
-q=x-x_0,
-\qquad
-s=\sqrt{h^2+q^2}.
-\]
-The attenuation and travel time are
-\[
-B=\sqrt{\frac{h}{s}}e^{-2\alpha s},
-\qquad
-T=\frac{2}{v}(s-h)+\frac{2d}{v},
-\]
-and
-\[
-\tau=t-T.
-\]
-The forward-map value at \((t,x)\) is
-\[
-A(t,x;\theta)=aB\,w(\tau),
-\]
-where the Ricker wavelet is
-\[
-w(\tau)=(1-2u)e^{-u},
-\qquad
-u=(\pi f_0\tau)^2,
-\]
-with derivative
-\[
-w'(\tau)
-=
-2(\pi f_0)^2\tau(2u-3)e^{-u}.
-\]
-
-The derivatives of the attenuation term are
-\[
-\frac{\partial\log B}{\partial x_0}
-=
-q\left(\frac{1}{2s^2}+\frac{2\alpha}{s}\right),
-\]
-and
-\[
-\frac{\partial\log B}{\partial h}
-=
-\frac{1}{2h}
--\frac{h}{2s^2}
--\frac{2\alpha h}{s}.
-\]
-The derivatives of the wavelet time offset are
-\[
-\frac{\partial\tau}{\partial x_0}
-=
-\frac{2q}{vs},
-\qquad
-\frac{\partial\tau}{\partial d}
-=
--\frac{2h}{vs},
-\]
-and
-\[
-\frac{\partial\tau}{\partial r}
-=
-\frac{2}{v}\left(1-\frac{h}{s}\right).
-\]
-
+To compute \(P\), we require the Jacobian of the forward map. 
+The forward map at $(t, x)$ is given by 
+\begin{align*}
+  A(t, x; \theta) = A(x_0, d, R, a) = aB(x)w(t-T(x))
+\end{align*}
+where
+\begin{align*}
+  B(x) = \sqrt{\frac{d+R}{s(x)}} e^{-2\alpha s(x)}, \quad T(x) = \frac{2}{v} (s(x) - (d+R)) + \frac{2d}{v} = \frac{2}{v} (s(x) - R)
+\end{align*}
+with $s(x) = \sqrt{(d+R)^2+(x-x_0)^2}$,
+and 
+\begin{align*}
+  w(\tau) = (1-2(\pi f_0\tau)^2)e^{-(\pi f_0\tau)^2}.
+\end{align*}
+We have that 
+\begin{align*}
+w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)-3)e^{-(\pi f_0\tau)},\\
+\frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
+\frac{\partial\log B}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s^2}-\frac{2\alpha (d+R)}{s},\\
+-\frac{\partial T(x)}{\partial x_0}&=\frac{2(x-x_0)}{vs(x)},\\
+-\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
+-\frac{\partial T(x)}{\partial r}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
+\end{align*}
 Applying the product and chain rules gives
-\[
-\frac{\partial A}{\partial x_0}
-=
-aB\left[
-w(\tau)\frac{\partial\log B}{\partial x_0}
-+
-w'(\tau)\frac{\partial\tau}{\partial x_0}
-\right],
-\]
-\[
-\frac{\partial A}{\partial d}
-=
-aB\left[
-w(\tau)\frac{\partial\log B}{\partial h}
-+
-w'(\tau)\frac{\partial\tau}{\partial d}
-\right],
-\]
-\[
-\frac{\partial A}{\partial r}
-=
-aB\left[
-w(\tau)\frac{\partial\log B}{\partial h}
-+
-w'(\tau)\frac{\partial\tau}{\partial r}
-\right],
-\]
-and
-\[
-\frac{\partial A}{\partial a}
-=
-B\,w(\tau).
-\]
+\begin{align*}
+\frac{\partial A(t,x;\theta)}{\partial x_0}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial d}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial r}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial r}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial a}&=B\,w(t-T(x)).
+\end{align*}
 Vectorising these four derivative images gives the four columns of \(J_0\). The
 local precision, covariance, and recentered mean then follow from
 \[

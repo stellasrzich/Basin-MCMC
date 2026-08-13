@@ -501,9 +501,9 @@ variances.
 
 \subsubsection*{Analytic forward-map Jacobian}
 To compute \(P\), we require the Jacobian of the forward map. 
-The forward map at $(t, x)$ is given by 
+The forward map at $(t, x)$ with parameters $\theta=(x_0, d, R, a)^{\mathsf T}$ is given by 
 \begin{align*}
-  A(t, x; \theta) = A(x_0, d, R, a) = aB(x)w(t-T(x))
+  A(t, x; \theta) = aB(x)w(t-T(x))
 \end{align*}
 where
 \begin{align*}
@@ -516,18 +516,18 @@ and
 \end{align*}
 We have that 
 \begin{align*}
-w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)-3)e^{-(\pi f_0\tau)},\\
+w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
 \frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
 \frac{\partial\log B}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s^2}-\frac{2\alpha (d+R)}{s},\\
 -\frac{\partial T(x)}{\partial x_0}&=\frac{2(x-x_0)}{vs(x)},\\
 -\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
--\frac{\partial T(x)}{\partial r}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
+-\frac{\partial T(x)}{\partial R}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
 \end{align*}
 Applying the product and chain rules gives
 \begin{align*}
 \frac{\partial A(t,x;\theta)}{\partial x_0}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
 \frac{\partial A(t,x;\theta)}{\partial d}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial r}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial r}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial R}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial h}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
 \frac{\partial A(t,x;\theta)}{\partial a}&=B\,w(t-T(x)).
 \end{align*}
 Vectorising these four derivative images gives the four columns of \(J_0\). The
@@ -555,7 +555,7 @@ This is given by
 \end{align*}
 for some constant $C$. Recall that the forward map is given by
 \begin{align*}
-  A(t, x; \theta) = A(x_0, d, R, a) = aB(x)w(t-T(x))
+  A(t, x; \theta) = aB(x)w(t-T(x))
 \end{align*}
 where
 \begin{align*}

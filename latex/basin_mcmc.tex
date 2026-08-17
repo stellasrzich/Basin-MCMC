@@ -627,8 +627,7 @@ where $F_k(c)$ is the $k$-th entry of $F(c)$.
 Using the Taylor approximation \eqref{eq:taylor_expansion} for each term in \eqref{eq:sum_forward_map} gives
 \begin{align}
   sF(c + \delta_1) + (1-s)F(c + \delta_2)
-  &= m\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
-  &= m\left[F(c) + J_c \left(s\delta_1 + (1-s)\delta_2\right) + \frac{1}{2} \left(s H_c[\delta_1, \delta_1]+ (1-s) H_c[\delta_2, \delta_2]\right)\right] \nonumber\\
+  &= F(c) + J_c \left(s\delta_1 + (1-s)\delta_2\right) + \frac{1}{2} \left(s H_c[\delta_1, \delta_1]+ (1-s) H_c[\delta_2, \delta_2]\right) \nonumber\\
   &+ O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor}
 \end{align}
 Now, notice that since $s\delta_1 + (1-s)\delta_2 = 0$, we have that
@@ -644,7 +643,7 @@ Next, notice that since $H_c[\delta, \delta]$ is bilinear, we have that
 Combining \eqref{eq:sum_forward_map_taylor}, \eqref{eq:jacobian_zero}, and \eqref{eq:bilinear_property} gives
 \begin{align}
   sF(c + \delta_1) + (1-s)F(c + \delta_2)
-  &= m\left[F(c) + \frac{1}{2} s(1-s)H_c[h, h]\right] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
+  &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
 \end{align}
 Since
 \[
@@ -656,11 +655,12 @@ so that $|s|, |1-s| < 1/\epsilon$, then we have that
 \begin{align}
   O(\norm{\delta_1}^3 + \norm{\delta_2}^3) = O\left(\norm{h}^3\right). \label{eq:error_bound}
 \end{align}
-Combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_bound} gives
+Overall, combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_bound} gives
 \begin{align}
   sF(c + \delta_1) + (1-s)F(c + \delta_2)
-  &= m\left[F(c) + \frac{1}{2} s(1-s)H_c[h, h]\right] + O\left(\norm{h}^3\right). \label{eq:sum_forward_map_taylor_final_final}
+  &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right), \label{eq:sum_forward_map_taylor_final_final}
 \end{align}
+when $|a_1+a_2|>\epsilon$.
 
 \hl{derive why we choose our paramaterisation?}
 

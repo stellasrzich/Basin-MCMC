@@ -567,7 +567,7 @@ and
   w(\tau) = (1-2(\pi f_0\tau)^2)e^{-(\pi f_0\tau)^2}.
 \end{align*}
 
-\subsubsection{Reparameterization}
+\subsubsection*{Reparameterization}
 Define $g_0:=(x_0,d_0,R_0)^{\mathsf T}$, so that we may write the representative atom as 
 \[\theta_0=(g_0,a_0)^{\mathsf T}.\]
 Now, with two atoms 
@@ -588,6 +588,47 @@ We may recover the original parameters as follows:
   \item $g_2 = c - \sqrt{\frac{s}{1-s}}z$.
 \end{itemize}
 
+\subsubsection*{Taylor approximation to the forward map}
+Define the function $F: [0,X_{\text{max}}]\times [0,D_{\text{max}}] \times[0, \infty) \to [0,1]^{N_t N_x}$ by 
+\[F(g) := A(g, 1),\] 
+where $A(g,1)$ is the $N_t N_x$-dimensional vector with $A(t,x;g,1)$ as the $t N_x + x$-th entry.
+Notice that we have that
+\begin{align*}
+  A(g, a) = aF(g).
+\end{align*}
+Hence, 
+\begin{align}
+  A(\theta_1) + A(\theta_2) 
+  &= a_1F(g_1) + a_2F(g_2) \nonumber\\
+  &= m\left[sF(g_1) + (1-s)F(g_2)\right] \nonumber\\
+  &= m\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right]. \label{eq:sum_forward_map}
+\end{align}
+where $\delta_1 := g_1 - c = \sqrt{\frac{1-s}{s}}z$ and $\delta_2 := g_2 - c = -\sqrt{\frac{s}{1-s}}z$.
+
+Now, (since $F$ is smooth) performing a second-order Taylor expansion of $F$ around $c$ gives
+\begin{align}
+  F(c + \delta)
+  &= F(c) + J_c \delta + \frac{1}{2} H_c[\delta, \delta] + O(\norm{\delta}^3), \label{eq:taylor_expansion}
+\end{align}
+where $J_c$ is the Jacobian of $F$ at $c$, given by
+\[
+J_c = \left[
+  \frac{\partial F(c)}{\partial x_0},
+  \frac{\partial F(c)}{\partial d},
+  \frac{\partial F(c)}{\partial R}
+\right]
+\]
+and $H_c[\delta, \delta]$ is the $N_t N_x$-dimensional vector with $k$-th entry
+\[
+  \left(H_c[\delta, \delta]\right)_k = \delta^\mathsf T \nabla^2 F_k(c) \delta,
+\]
+where $F_k(c)$ is the $k$-th entry of $F(c)$.
+
+Using the Taylor approximation \eqref{eq:taylor_expansion} in \eqref{eq:sum_forward_map} gives
+\begin{align}
+  A(\theta_1) + A(\theta_2) 
+  &= m\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
+\end{align}
 
 % %-------- REFERENCES ---------
 % \bibliographystyle{ieeetr}

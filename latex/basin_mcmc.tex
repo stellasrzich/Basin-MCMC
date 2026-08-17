@@ -588,7 +588,7 @@ We may recover the original parameters as follows:
   \item $g_2 = c - sh$.
 \end{itemize}
 
-\subsubsection*{Taylor approximation to the forward map}
+\subsubsection*{Rewrite the forward map}
 Define the function $F: [0,X_{\text{max}}]\times [0,D_{\text{max}}] \times[0, \infty) \to [0,1]^{N_t N_x}$ by 
 \[F(g) := A(g, 1),\] 
 where $A(g,1)$ is the $N_t N_x$-dimensional vector with $A(t,x;g,1)$ as the $t N_x + x$-th entry.
@@ -605,6 +605,7 @@ Hence,
 \end{align}
 where $\delta_1 := g_1 - c = (1-s)h$ and $\delta_2 := g_2 - c = -sh$.
 
+\subsubsection*{Taylor approximation to $F$ around $c$}
 Now, (since $F$ is smooth) performing a second-order Taylor expansion of $F$ around $c$ gives
 \begin{align}
   F(c + \delta)
@@ -658,9 +659,13 @@ so that $|s|, |1-s| < 1/\epsilon$, then we have that
 Overall, combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_bound} gives
 \begin{align}
   sF(c + \delta_1) + (1-s)F(c + \delta_2)
-  &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right), \label{eq:sum_forward_map_taylor_final_final}
+  &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \label{eq:sum_forward_map_taylor_final_final}
 \end{align}
 when $|a_1+a_2|>\epsilon$.
+
+\subsubsection*{Taylor approximation to $F$ around $g_0$}
+
+\hl{UP TO HERE}
 
 \hl{derive why we choose our paramaterisation?}
 

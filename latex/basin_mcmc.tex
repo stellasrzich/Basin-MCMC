@@ -44,6 +44,7 @@
 \newcommand{\Ell}{\mathcal{L}}
 \newcommand{\F}{\mathcal F}
 \newcommand*{\E}{\mathcal{E}}
+\newcommand*{\abs}[1]{\left\lvert #1 \right\rvert}
 
 \makeatletter
 \@ifundefined{href}{%
@@ -651,7 +652,7 @@ Since
   \norm{\delta_1}^3 + \norm{\delta_2}^3 = \left(|s|^3 + |1-s|^3\right)\norm{h}^3,
 \]
 if we restrict to the region where $|a_1+a_2|>\epsilon$ for some $\epsilon > 0$ 
-(which should be reasonable otherwise they cancel each other out in the image), 
+\hl{(which should be reasonable otherwise they cancel each other out in the image)}, 
 so that $|s|, |1-s| < 1/\epsilon$, then we have that 
 \begin{align}
   O(\norm{\delta_1}^3 + \norm{\delta_2}^3) = O\left(\norm{h}^3\right). \label{eq:error_bound}
@@ -664,6 +665,67 @@ Overall, combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_b
 when $|a_1+a_2|>\epsilon$.
 
 \subsubsection*{Taylor approximation to $F$ around $g_0$}
+Now, (since $F$ is smooth) performing a first-order Taylor expansion of $F$ around $g_0$ gives
+\begin{align}
+  F(g_0 + \delta)
+  &= F(g_0) + J_{g_0} \delta + O(\norm{\delta}^2), \label{eq:taylor_expansion_2}
+\end{align}
+where 
+and $J_{g_0}$ is the Jacobian of $F$ at $g_0$, given by
+\[
+J_{g_0} = \left[
+  \frac{\partial F(g_0)}{\partial x_0},
+  \frac{\partial F(g_0)}{\partial d},
+  \frac{\partial F(g_0)}{\partial R}
+\right].
+\]
+Applying the approximation \eqref{eq:taylor_expansion_2} to $F(c)$ in \eqref{eq:sum_forward_map_taylor_final_final} gives
+\begin{align}
+  sF(c + \delta_1) + (1-s)F(c + \delta_2)
+  &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \nonumber\\
+  &= F(g_0 + q) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \nonumber\\
+  &= F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
+\end{align}
+when $|a_1+a_2|>\epsilon$, 
+where $q := c - g_0$.
+
+\subsubsection*{Approximate $H_c[h, h]$ by $H_{g_0}[h, h]$}
+Since we would like an approximation that only depends on the representative atom $(g_0,a_0)$, 
+we will approximate $H_c[h, h]$.
+Given some assumptions \hl{(such as $F$ has bounded third derivatives in a neighbourhood of $g_0$)}, 
+we have that
+\[
+  H_c[h, h] = H_{g_0}[h, h] + O(\norm{q}\norm{h}^2).
+\]
+Combining this with \eqref{eq:sum_forward_map_taylor_second} gives
+\begin{align}
+  sF(c + \delta_1) + (1-s)F(c + \delta_2)
+  &= F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
+  &+ O\left(\norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right), \label{eq:sum_forward_map_taylor_third}
+\end{align}
+when $|a_1+a_2|>\epsilon$.
+
+\subsubsection*{Approximation of the forward map}
+Define $\eta := m - a_0$ to be the difference between the total amplitude and the amplitude of the representative atom.
+Then, from \eqref{eq:sum_forward_map_taylor_third} and \eqref{eq:sum_forward_map} we have that
+\begin{align}
+  A(\theta_1) + A(\theta_2) 
+  &= m\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
+  &= (a_0 + \eta)\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
+  &= (a_0 + \eta)\bigl[F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
+  &+ O\left(\norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
+  &= a_0F(g_0) + \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
+  &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right) \nonumber\\
+  &= A(\theta_0) + \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
+  &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right). \nonumber
+\end{align}
+when $|a_1+a_2|>\epsilon$. That is, 
+\begin{align}
+  A(\theta_1) + A(\theta_2) - A(\theta_0)
+  &= \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
+  &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right) \label{eq:forward_map_approximation}
+\end{align}
+in some neighborhood around $\eta = m - a_0 = 0$. 
 
 \hl{UP TO HERE}
 

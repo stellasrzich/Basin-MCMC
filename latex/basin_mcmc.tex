@@ -519,17 +519,17 @@ We have that
 \begin{align*}
 w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
 \frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
-\frac{\partial\log B}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s(x)^2}-\frac{2\alpha (d+R)}{s(x)},\\
+\frac{\partial\log B(x)}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s(x)^2}-\frac{2\alpha (d+R)}{s(x)},\\
 -\frac{\partial T(x)}{\partial x_0}&=\frac{2(x-x_0)}{vs(x)},\\
 -\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
 -\frac{\partial T(x)}{\partial R}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
 \end{align*}
 Applying the product and chain rules gives
 \begin{align*}
-\frac{\partial A(t,x;\theta)}{\partial x_0}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial d}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial R}&=aB\left[w(t-T(x))\frac{\partial\log B}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial a}&=B\,w(t-T(x)).
+\frac{\partial A(t,x;\theta)}{\partial x_0}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial d}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial R}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
+\frac{\partial A(t,x;\theta)}{\partial a}&=B(x)\,w(t-T(x)).
 \end{align*}
 Vectorising these four derivative images gives the four columns of \(J_0\). The
 local precision, covariance, and recentered mean then follow from

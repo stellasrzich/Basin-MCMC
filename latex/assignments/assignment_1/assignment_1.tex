@@ -69,192 +69,200 @@ Note that this function need only be specified up to an additive constant.
 
 \textit{Solution.} 
 \hl{TODO: read over.}
-Note that the log posterior is given by 
-\[
-\log p(\theta\mid y)
-=
--\frac{1}{2\sigma^2}\lVert y-A(\theta)\rVert_2^2
-+\log p(\theta) + C,
-\]
-where $C$ is some constant independent of $\theta$.
-Performing a second-order Taylor expansion about $\theta_0$ gives
-\begin{align}
-\log p(\theta\mid y)
-= 
-\log p(\theta_0\mid y)
-+g^{\mathsf T}\left(\theta-\theta_0\right)
--\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right)
-+ O(\norm{\theta-\theta_0}^3), \label{eq:taylor_expansion_simple}
-\end{align}
-where
-\[
-g:=\nabla\log p(\theta_0\mid y) \quad \text{and} \quad P:=-\nabla^2\log p(\theta_0\mid y).
-\]
-Motivated by \eqref{eq:taylor_expansion_simple}, we define our approximation to the log posterior $f_1: \mathcal{X}_1 \to \R$ by
-\[
-f_1(\theta) := \log p(\theta_0\mid y)
-+g^{\mathsf T}\left(\theta-\theta_0\right)
--\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right).
-\]
+We present the solution as follows:
+\begin{enumerate}
+    \item Define $f_1$ as the second-order Taylor polynomial of the log posterior about $\theta_0$;
+    \item Derive a formula for the gradient $g=\nabla\log p(\theta_0\mid y)$;
+    \item Derive a formula for the negative Hessian $P=-\nabla^2\log p(\theta_0\mid y)$;
+    \item State the final formula for $f_1$.
+\end{enumerate}
+\begin{enumerate}
+    \item 
+    Note that the log posterior is given by 
+    \[
+    \log p(\theta\mid y)
+    =
+    -\frac{1}{2\sigma^2}\lVert y-A(\theta)\rVert_2^2
+    +\log p(\theta) + C,
+    \]
+    where $C$ is some constant independent of $\theta$.
+    Performing a second-order Taylor expansion about $\theta_0$ gives
+    \begin{align}
+    \log p(\theta\mid y)
+    = 
+    \log p(\theta_0\mid y)
+    +g^{\mathsf T}\left(\theta-\theta_0\right)
+    -\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right)
+    + O(\norm{\theta-\theta_0}^3), \label{eq:taylor_expansion_simple}
+    \end{align}
+    where
+    \[
+    g:=\nabla\log p(\theta_0\mid y) \quad \text{and} \quad P:=-\nabla^2\log p(\theta_0\mid y).
+    \]
+    Motivated by \eqref{eq:taylor_expansion_simple}, we define our approximation to the log posterior $f_1: \mathcal{X}_1 \to \R$ by
+    \[
+    f_1(\theta) := \log p(\theta_0\mid y)
+    +g^{\mathsf T}\left(\theta-\theta_0\right)
+    -\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right).
+    \]
 
-\textbf{Gradient of the log posterior}
-The gradient of the log posterior is given by
-\[
-g 
-= \nabla\log p(\theta_0\mid y)
-=
-\nabla\log p(y\mid\theta_0)
-+
-\nabla\log p(\theta_0).
-\]
+    \item \hl{UP TO HERE}The gradient of the log posterior is given by
+    \[
+    g 
+    = \nabla\log p(\theta_0\mid y)
+    =
+    \nabla\log p(y\mid\theta_0)
+    +
+    \nabla\log p(\theta_0).
+    \]
 
-The gradient of the log likelihood is
-\[
-\nabla\log p(y\mid\theta)
-=
-\frac{1}{\sigma^2}J(\theta)^{\mathsf T}e(\theta),
-\]
-where $e(\theta)=y-A(\theta)$ and $J(\theta)=\frac{\partial A(\theta)}{\partial\theta}$ 
-is the Jacobian of the forward map.
-Since $y=A(\theta_0)$ gives $e(\theta_0)=0$, we have that 
-\[
-  \nabla\log p(y\mid\theta_0) = 0.
-\]
+    The gradient of the log likelihood is
+    \[
+    \nabla\log p(y\mid\theta)
+    =
+    \frac{1}{\sigma^2}J(\theta)^{\mathsf T}e(\theta),
+    \]
+    where $e(\theta)=y-A(\theta)$ and $J(\theta)=\frac{\partial A(\theta)}{\partial\theta}$ 
+    is the Jacobian of the forward map.
+    Since $y=A(\theta_0)$ gives $e(\theta_0)=0$, we have that 
+    \[
+    \nabla\log p(y\mid\theta_0) = 0.
+    \]
 
-Thus, the gradient of the log posterior is simply the gradient of the log
-prior,
-\[
-g
-=
-\nabla\log p(\theta_0).
-\]
+    Thus, the gradient of the log posterior is simply the gradient of the log
+    prior,
+    \[
+    g
+    =
+    \nabla\log p(\theta_0).
+    \]
 
-Under the current prior, \(x_0\), \(d\), and \(a\) are uniform on their allowed
-ranges, while
-\[
-p(r)=\lambda_r e^{-\lambda_r r},
-\qquad r\geq 0.
-\]
-Hence,
-\[
-g
-=
-\begin{pmatrix}
-0\\[1mm]
-0\\[1mm]
--\lambda_r\\[1mm]
-0
-\end{pmatrix}.
-\]
+    Under the current prior, \(x_0\), \(d\), and \(a\) are uniform on their allowed
+    ranges, while
+    \[
+    p(r)=\lambda_r e^{-\lambda_r r},
+    \qquad r\geq 0.
+    \]
+    Hence,
+    \[
+    g
+    =
+    \begin{pmatrix}
+    0\\[1mm]
+    0\\[1mm]
+    -\lambda_r\\[1mm]
+    0
+    \end{pmatrix}.
+    \]
 
-\textbf{Hessian of the log posterior}
-The negative Hessian of the log posterior is given by
-\[
-P = -\nabla^2\log p(\theta_0\mid y)
-=
--\nabla^2\log p(y\mid\theta_0)
--\nabla^2\log p(\theta_0).
-\]
-The uniform priors have zero Hessian in the interior of their supports, and the
-log of the exponential radius prior is linear in \(r\), and so
-\[
-\nabla^2\log p(\theta_0)=0.
-\]
+    \item The negative Hessian of the log posterior is given by
+    \[
+    P = -\nabla^2\log p(\theta_0\mid y)
+    =
+    -\nabla^2\log p(y\mid\theta_0)
+    -\nabla^2\log p(\theta_0).
+    \]
+    The uniform priors have zero Hessian in the interior of their supports, and the
+    log of the exponential radius prior is linear in \(r\), and so
+    \[
+    \nabla^2\log p(\theta_0)=0.
+    \]
 
-Thus, the negative Hessian of the log posterior is simply the negative Hessian of the log likelihood,
-\[
-P = -\nabla^2\log p(y\mid\theta_0).
-\]
-Differentiating the log likelihood gradient gives
-\[
-\nabla^2\log p(y\mid\theta)
-=
--\frac{1}{\sigma^2}J(\theta)^{\mathsf T}J(\theta)
-+
-\frac{1}{\sigma^2}
-\sum_k e_k(\theta)\nabla^2A_k(\theta).
-\] 
-At $\theta=\theta_0$, recalling that $e(\theta_0)=0$, we have
-\[
-\nabla^2\log p(y\mid\theta_0)
-= -\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
-\]
+    Thus, the negative Hessian of the log posterior is simply the negative Hessian of the log likelihood,
+    \[
+    P = -\nabla^2\log p(y\mid\theta_0).
+    \]
+    Differentiating the log likelihood gradient gives
+    \[
+    \nabla^2\log p(y\mid\theta)
+    =
+    -\frac{1}{\sigma^2}J(\theta)^{\mathsf T}J(\theta)
+    +
+    \frac{1}{\sigma^2}
+    \sum_k e_k(\theta)\nabla^2A_k(\theta).
+    \] 
+    At $\theta=\theta_0$, recalling that $e(\theta_0)=0$, we have
+    \[
+    \nabla^2\log p(y\mid\theta_0)
+    = -\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
+    \]
 
-It follows that the negative Hessian of the log posterior is
-\[
-P
-=
-\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
-\]
+    It follows that the negative Hessian of the log posterior is
+    \[
+    P
+    =
+    \frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
+    \]
 
-If \(P\) is positive definite, completing the square gives
-\[
-\log p(\theta\mid y)
-\approx
-C-\frac12(\theta-\mu)^{\mathsf T}P(\theta-\mu),
-\]
-where
-\[
-\mu=\theta_0+P^{-1}g,
-\qquad
-\Sigma=P^{-1}.
-\]
-Thus, after restricting it to the valid parameter domain, the local basin
-approximation is a truncated Gaussian with mean parameter \(\mu\) and covariance
-parameter \(\Sigma\).
+    To compute \(P\), we require the Jacobian of the forward map. 
+    The forward map at $(t, x)$ with parameters $\theta=(x_0, d, R, a)^{\mathsf T}$ is given by 
+    \begin{align*}
+    A(t, x; \theta) = aB(x)w(t-T(x))
+    \end{align*}
+    where
+    \begin{align*}
+    B(x) = \sqrt{\frac{d+R}{s(x)}} e^{-2\alpha s(x)}, \quad T(x) = \frac{2}{v} (s(x) - (d+R)) + \frac{2d}{v} = \frac{2}{v} (s(x) - R)
+    \end{align*}
+    with $s(x) = \sqrt{(d+R)^2+(x-x_0)^2}$,
+    and 
+    \begin{align*}
+    w(\tau) = (1-2(\pi f_0\tau)^2)e^{-(\pi f_0\tau)^2}.
+    \end{align*}
+    We have that 
+    \begin{align*}
+    w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
+    \frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
+    \frac{\partial\log B(x)}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s(x)^2}-\frac{2\alpha (d+R)}{s(x)},\\
+    -\frac{\partial T(x)}{\partial x_0}&=\frac{2(x-x_0)}{vs(x)},\\
+    -\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
+    -\frac{\partial T(x)}{\partial R}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
+    \end{align*}
+    Applying the product and chain rules gives
+    \begin{align*}
+    \frac{\partial A(t,x;\theta)}{\partial x_0}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial d}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial R}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial a}&=B(x)\,w(t-T(x)).
+    \end{align*}
+    Vectorising these four derivative images gives the four columns of \(J_0\).
 
-In the implementation, the Moore--Penrose pseudoinverse \(P^{+}\) is used in
-place of \(P^{-1}\) for numerical robustness when \(P\) is ill-conditioned:
-\[
-\mu=\theta_0+P^{+}g,
-\qquad
-\Sigma=P^{+}.
-\]
-If all eigenvalues of \(P\) are positive, this agrees with \(P^{-1}\), up to
-the numerical tolerance used in computing the pseudoinverse. Small eigenvalues
-correspond to weakly identified directions and therefore large local posterior
-variances.
+    \item If \(P\) is positive definite, completing the square gives
+    \[
+    \log p(\theta\mid y)
+    \approx
+    C-\frac12(\theta-\mu)^{\mathsf T}P(\theta-\mu),
+    \]
+    where
+    \[
+    \mu=\theta_0+P^{-1}g,
+    \qquad
+    \Sigma=P^{-1}.
+    \]
+    Thus, after restricting it to the valid parameter domain, the local basin
+    approximation is a truncated Gaussian with mean parameter \(\mu\) and covariance
+    parameter \(\Sigma\).
 
-\textbf{Analytic forward-map Jacobian}
-To compute \(P\), we require the Jacobian of the forward map. 
-The forward map at $(t, x)$ with parameters $\theta=(x_0, d, R, a)^{\mathsf T}$ is given by 
-\begin{align*}
-  A(t, x; \theta) = aB(x)w(t-T(x))
-\end{align*}
-where
-\begin{align*}
-  B(x) = \sqrt{\frac{d+R}{s(x)}} e^{-2\alpha s(x)}, \quad T(x) = \frac{2}{v} (s(x) - (d+R)) + \frac{2d}{v} = \frac{2}{v} (s(x) - R)
-\end{align*}
-with $s(x) = \sqrt{(d+R)^2+(x-x_0)^2}$,
-and 
-\begin{align*}
-  w(\tau) = (1-2(\pi f_0\tau)^2)e^{-(\pi f_0\tau)^2}.
-\end{align*}
-We have that 
-\begin{align*}
-w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
-\frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
-\frac{\partial\log B(x)}{\partial (d+R)}&=\frac{1}{2(d+R)}-\frac{(d+R)}{2s(x)^2}-\frac{2\alpha (d+R)}{s(x)},\\
--\frac{\partial T(x)}{\partial x_0}&=\frac{2(x-x_0)}{vs(x)},\\
--\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
--\frac{\partial T(x)}{\partial R}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
-\end{align*}
-Applying the product and chain rules gives
-\begin{align*}
-\frac{\partial A(t,x;\theta)}{\partial x_0}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial d}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial R}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
-\frac{\partial A(t,x;\theta)}{\partial a}&=B(x)\,w(t-T(x)).
-\end{align*}
-Vectorising these four derivative images gives the four columns of \(J_0\). The
-local precision, covariance, and recentered mean then follow from
-\[
-P=\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
-\qquad
-\Sigma=P^{+},
-\qquad
-\mu=\theta_0+\Sigma g.
-\]
+    In the implementation, the Moore--Penrose pseudoinverse \(P^{+}\) is used in
+    place of \(P^{-1}\) for numerical robustness when \(P\) is ill-conditioned:
+    \[
+    \mu=\theta_0+P^{+}g,
+    \qquad
+    \Sigma=P^{+}.
+    \]
+    If all eigenvalues of \(P\) are positive, this agrees with \(P^{-1}\), up to
+    the numerical tolerance used in computing the pseudoinverse. Small eigenvalues
+    correspond to weakly identified directions and therefore large local posterior
+    variances.
+
+    The local precision, covariance, and recentered mean then follow from
+    \[
+    P=\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
+    \qquad
+    \Sigma=P^{+},
+    \qquad
+    \mu=\theta_0+\Sigma g.
+    \]
+\end{enumerate}
 
 
 % -------- QUESTION 2 ---------

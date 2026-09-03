@@ -84,7 +84,7 @@ Performing a second-order Taylor expansion about $\theta_0$ gives
 \log p(\theta_0\mid y)
 +g^{\mathsf T}\left(\theta-\theta_0\right)
 -\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right)
-+ O(\norm{\left(\theta-\theta_0\right)}^3), \label{eq:taylor_expansion_simple}
++ O(\norm{\theta-\theta_0}^3), \label{eq:taylor_expansion_simple}
 \end{align}
 where
 \[
@@ -93,8 +93,8 @@ g:=\nabla\log p(\theta_0\mid y) \quad \text{and} \quad P:=-\nabla^2\log p(\theta
 Motivated by \eqref{eq:taylor_expansion_simple}, we define our approximation to the log posterior $f_1: \mathcal{X}_1 \to \R$ by
 \[
 f_1(\theta) := \log p(\theta_0\mid y)
-+g^{\mathsf T}\delta\theta
--\frac12\delta\theta^{\mathsf T}P\delta\theta.
++g^{\mathsf T}\left(\theta-\theta_0\right)
+-\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right).
 \]
 
 \textbf{Gradient of the log posterior}

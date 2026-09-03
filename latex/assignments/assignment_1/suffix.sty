@@ -1,0 +1,16 @@
+
+%% suffix.sty -- define \WithSuffix to support starred versions of macros
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{suffix}[2006/07/15 v1.0 Starred macro definitions]
+
+\def\WithSuffix{%
+  \@ifstar
+    {\def\suffix@star{*}\suffix@}
+    {\def\suffix@star{}\suffix@}%
+}
+
+\def\suffix@#1{%
+  \expandafter\def\csname\expandafter\@gobble\string#1\suffix@star\endcsname
+}
+
+\endinput

@@ -148,45 +148,41 @@ We present the solution as follows:
     \]
 
     \item The negative Hessian of the log posterior is given by
-    \[
+    \begin{align}
     P = -\nabla^2\log p(\theta_0\mid y)
     =
     -\nabla^2\log p(y\mid\theta_0)
-    -\nabla^2\log p(\theta_0).
-    \]
-    The uniform priors have zero Hessian in the interior of their supports, and the
-    log of the exponential radius prior is linear in \(r\), and so
-    \[
-    \nabla^2\log p(\theta_0)=0.
-    \]
+    -\nabla^2\log p(\theta_0). \label{eq:hessian_log_posterior}
+    \end{align}
 
-    Thus, the negative Hessian of the log posterior is simply the negative Hessian of the log likelihood,
-    \[
-    P = -\nabla^2\log p(y\mid\theta_0).
-    \]
-    Differentiating the log likelihood gradient gives
-    \[
+    Recalling \eqref{eq:gradient_log_prior}, we have that
+    \begin{align}
+    \nabla^2\log p(\theta_0)=0. \label{eq:hessian_log_prior_0}
+    \end{align}
+
+    Next, for $\theta \in \mathcal{X}_1$, we have that
+    \begin{align*}
     \nabla^2\log p(y\mid\theta)
     =
-    -\frac{1}{\sigma^2}J(\theta)^{\mathsf T}J(\theta)
+    -\frac{1}{\sigma^2}J_A(\theta)^{\mathsf T}J_A(\theta)
     +
     \frac{1}{\sigma^2}
-    \sum_k e_k(\theta)\nabla^2A_k(\theta).
-    \] 
-    At $\theta=\theta_0$, recalling that $e(\theta_0)=0$, we have
-    \[
+    \sum_k (y - A(\theta))_k \nabla^2A_k(\theta).
+    \end{align*}
+    Again recalling that $y = A(\theta_0)$, we obtain
+    \begin{align}
     \nabla^2\log p(y\mid\theta_0)
-    = -\frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
-    \]
+    = -\frac{1}{\sigma^2}J_A(\theta_0)^{\mathsf T}J_A(\theta_0). \label{eq:hessian_log_likelihood_0}
+    \end{align}
 
-    It follows that the negative Hessian of the log posterior is
-    \[
+    Combining \eqref{eq:hessian_log_posterior}, \eqref{eq:hessian_log_prior_0}, and \eqref{eq:hessian_log_likelihood_0}, we have that
+    \begin{align}
     P
     =
-    \frac{1}{\sigma^2}J(\theta_0)^{\mathsf T}J(\theta_0).
-    \]
+    \frac{1}{\sigma^2}J_A(\theta_0)^{\mathsf T}J_A(\theta_0). \label{eq:hessian_log_posterior_0}
+    \end{align}
 
-    To compute \(P\), we require the Jacobian of the forward map. 
+    To compute \(P\), we must compute $J_A(\theta_0)$. 
     The forward map at $(t, x)$ with parameters $\theta=(x_0, d, R, a)^{\mathsf T}$ is given by 
     \begin{align*}
     A(t, x; \theta) = aB(x)w(t-T(x))

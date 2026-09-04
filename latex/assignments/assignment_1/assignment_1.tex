@@ -68,7 +68,6 @@ The function $f_1: \mathcal{X}_1 \to \R$ should satisfy the following properties
 Note that this function need only be specified up to an additive constant.
 
 \textit{Solution.} 
-\hl{TODO: read over.}
 We present the solution as follows:
 \begin{enumerate}
     \item Define $f_1$ as the second-order Taylor polynomial of the log posterior about $\theta_0$;
@@ -234,7 +233,7 @@ We present the solution as follows:
     &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0)^\top P(\theta-\theta_0)-2g^\top(\theta-\theta_0)\right]\nonumber\\
     &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0)^\top P(\theta-\theta_0)-2g^\top(\theta-\theta_0)+g^\top P^{-1}g-g^\top P^{-1}g\right]\nonumber\\
     &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)-g^\top P^{-1}g\right]\nonumber\\
-    &= \log p(\theta_0\mid y) - \frac12g^\top P^{-1}g + \frac12(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)\nonumber\\
+    &= \log p(\theta_0\mid y) - \frac12g^\top P^{-1}g - \frac12(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)\nonumber\\
     &= C' - \frac12((\theta-\mu)^\top P(\theta-\mu)), \nonumber
     \end{align}
     where $C'$ is some constant independent of $\theta$, and $\mu := \theta_0+P^{-1}g$.

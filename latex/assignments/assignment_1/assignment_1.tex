@@ -222,42 +222,27 @@ We present the solution as follows:
     Vectorising each of the derivatives in \eqref{eq:forward_map_partials} 
     gives the four columns of \(J_A(\theta_0)\).
 
-    \item If \(P\) is positive definite, completing the square gives
-    \[
-    \log p(\theta\mid y)
-    \approx
-    C-\frac12(\theta-\mu)^{\mathsf T}P(\theta-\mu),
-    \]
-    where
-    \[
-    \mu=\theta_0+P^{-1}g,
-    \qquad
-    \Sigma=P^{-1}.
-    \]
-    Thus, after restricting it to the valid parameter domain, the local basin
-    approximation is a truncated Gaussian with mean parameter \(\mu\) and covariance
-    parameter \(\Sigma\).
+    \item Recall that for $\theta \in \mathcal{X}_1$, our approximation to the log posterior is given by
+    \begin{align}
+    f_1(\theta) 
+    &= \log p(\theta_0\mid y)+g^{\mathsf T}\left(\theta-\theta_0\right)-\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right).\nonumber
+    \end{align}
+    Assuming that $P$ is positive definite (and so $P^{-1}$ exists), we may complete the square to obtain
+    \begin{align}
+    f_1(\theta) 
+    &= \log p(\theta_0\mid y)+g^{\mathsf T}\left(\theta-\theta_0\right)-\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right)\nonumber\\
+    &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0)^\top P(\theta-\theta_0)-2g^\top(\theta-\theta_0)\right]\nonumber\\
+    &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0)^\top P(\theta-\theta_0)-2g^\top(\theta-\theta_0)+g^\top P^{-1}g-g^\top P^{-1}g\right]\nonumber\\
+    &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)-g^\top P^{-1}g\right]\nonumber\\
+    &= \log p(\theta_0\mid y) - \frac12g^\top P^{-1}g + \frac12(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)\nonumber\\
+    &= C' - \frac12((\theta-\mu)^\top P(\theta-\mu)), \nonumber
+    \end{align}
+    where $C'$ is some constant independent of $\theta$, and $\mu := \theta_0+P^{-1}g$.
 
+    Thus, our approximation $f_1(\theta)$ defines a truncated Gaussian on $\mathcal{X}_1$, 
+    with mean $\mu$ and covariance $P^{-1}$.
     In the implementation, the Moore--Penrose pseudoinverse \(P^{+}\) is used in
-    place of \(P^{-1}\) for numerical robustness when \(P\) is ill-conditioned:
-    \[
-    \mu=\theta_0+P^{+}g,
-    \qquad
-    \Sigma=P^{+}.
-    \]
-    If all eigenvalues of \(P\) are positive, this agrees with \(P^{-1}\), up to
-    the numerical tolerance used in computing the pseudoinverse. Small eigenvalues
-    correspond to weakly identified directions and therefore large local posterior
-    variances.
-
-    The local precision, covariance, and recentered mean then follow from
-    \[
-    P=\frac{1}{\sigma^2}J_0^{\mathsf T}J_0,
-    \qquad
-    \Sigma=P^{+},
-    \qquad
-    \mu=\theta_0+\Sigma g.
-    \]
+    place of \(P^{-1}\) for numerical robustness.
 \end{enumerate}
 
 

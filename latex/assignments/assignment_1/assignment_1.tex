@@ -135,16 +135,16 @@ We present the solution as follows:
     Finally, for $\theta \in \mathcal{X}_1$, we have that
     \begin{align}
     \nabla \log p(\theta) 
-    = \nabla \log \left(\lambda_r \e^{-\lambda_r r} \right)
-    = \nabla \left(-\lambda_r r \right)
-    = \left(0, 0, -\lambda_r, 0 \right)^{\mathsf T}. \label{eq:gradient_log_prior}
+    = \nabla \log \left(\lambda_R \e^{-\lambda_r R} \right)
+    = \nabla \left(-\lambda_R R \right)
+    = \left(0, 0, -\lambda_R, 0 \right)^{\mathsf T}. \label{eq:gradient_log_prior}
     \end{align}
     
     Combining \eqref{eq:gradient_log_posterior}, \eqref{eq:gradient_log_likelihood_0}, and \eqref{eq:gradient_log_prior}, we have that
     \[
     g
     =
-    \left(0, 0, -\lambda_r, 0 \right)^{\mathsf T}.
+    \left(0, 0, -\lambda_R, 0 \right)^{\mathsf T}.
     \]
 
     \item The negative Hessian of the log posterior is given by
@@ -182,8 +182,9 @@ We present the solution as follows:
     \frac{1}{\sigma^2}J_A(\theta_0)^{\mathsf T}J_A(\theta_0). \label{eq:hessian_log_posterior_0}
     \end{align}
 
-    To compute \(P\), we must compute $J_A(\theta_0)$. 
-    The forward map at $(t, x)$ with parameters $\theta=(x_0, d, R, a)^{\mathsf T}$ is given by 
+    To obtain a formula for \(P\), we will obtain a formula for $J_A(\theta_0)$. 
+    To this end, recall that the $t N_x + x$-th entry of the forward map $A: \mathcal{X} \to [0, 1]^{N_t N_x}$ 
+    with parameters $\theta=(x_0, d, R, a)^{\mathsf T} \in \mathcal{X}_1$ is given by 
     \begin{align*}
     A(t, x; \theta) = aB(x)w(t-T(x))
     \end{align*}
@@ -196,7 +197,19 @@ We present the solution as follows:
     \begin{align*}
     w(\tau) = (1-2(\pi f_0\tau)^2)e^{-(\pi f_0\tau)^2}.
     \end{align*}
-    We have that 
+
+    Applying the product and chain rules, we obtain
+    \begin{equation}
+    \begin{aligned}
+    \frac{\partial A(t,x;\theta)}{\partial x_0}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial d}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial R}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
+    \frac{\partial A(t,x;\theta)}{\partial a}&=B(x)\,w(t-T(x)).
+    \end{aligned}
+    \label{eq:forward_map_partials}
+    \end{equation}
+    
+    The needed derivatives are given by
     \begin{align*}
     w'(\tau)&=2(\pi f_0)^2\tau(2(\pi f_0\tau)^2-3)e^{-(\pi f_0\tau)^2},\\
     \frac{\partial\log B(x)}{\partial x_0}&=(x-x_0)\left(\frac{1}{2s(x)^2}+\frac{2\alpha}{s(x)}\right),\\
@@ -205,14 +218,9 @@ We present the solution as follows:
     -\frac{\partial T(x)}{\partial d}&=-\frac{2(d+R)}{v s(x)},\\
     -\frac{\partial T(x)}{\partial R}&=\frac{2}{v}\left(1-\frac{(d+R)}{s(x)}\right).
     \end{align*}
-    Applying the product and chain rules gives
-    \begin{align*}
-    \frac{\partial A(t,x;\theta)}{\partial x_0}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial x_0}+w'(t-T(x))\frac{-\partial T(x)}{\partial x_0}\right],\\
-    \frac{\partial A(t,x;\theta)}{\partial d}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial d}\right],\\
-    \frac{\partial A(t,x;\theta)}{\partial R}&=aB(x)\left[w(t-T(x))\frac{\partial\log B(x)}{\partial (d+R)}+w'(t-T(x))\frac{-\partial T(x)}{\partial R}\right],\\
-    \frac{\partial A(t,x;\theta)}{\partial a}&=B(x)\,w(t-T(x)).
-    \end{align*}
-    Vectorising these four derivative images gives the four columns of \(J_0\).
+    
+    Vectorising each of the derivatives in \eqref{eq:forward_map_partials} 
+    gives the four columns of \(J_A(\theta_0)\).
 
     \item If \(P\) is positive definite, completing the square gives
     \[

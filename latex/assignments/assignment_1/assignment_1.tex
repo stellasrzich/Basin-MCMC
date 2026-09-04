@@ -88,7 +88,7 @@ We present the solution as follows:
     where $C$ is some constant independent of $\theta$, 
     and $A: \mathcal{X} \to [0, 1]^{N_t N_x}$ is the forward map.
     Performing a second-order Taylor expansion about $\theta_0$ 
-    (assuming $\log p(\theta\mid y) \in C^3(U)$ for some open neighbourhood $U\subset\mathcal{X}_1$ of $\theta_0$) gives
+    (\hl{since} $\log p(\theta\mid y) \in C^3(U)$ for some open neighbourhood $U\subset\mathcal{X}_1$ of $\theta_0$) gives
     \begin{align}
     \log p(\theta\mid y)
     = 
@@ -108,53 +108,43 @@ We present the solution as follows:
     -\frac12\left(\theta-\theta_0\right)^{\mathsf T}P\left(\theta-\theta_0\right).
     \]
 
-    \item \hl{UP TO HERE}The gradient of the log posterior is given by
-    \[
+    \item We have that
+    \begin{align}
     g 
     = \nabla\log p(\theta_0\mid y)
+    = \nabla\left( \log p(y\mid\theta_0) + \log p(\theta_0) - \log p(y) \right)
     =
     \nabla\log p(y\mid\theta_0)
     +
-    \nabla\log p(\theta_0).
-    \]
+    \nabla\log p(\theta_0). \label{eq:gradient_log_posterior}
+    \end{align}
 
-    The gradient of the log likelihood is
-    \[
+    For $\theta \in \mathcal{X}_1$, we have that
+    \begin{align*}
     \nabla\log p(y\mid\theta)
-    =
-    \frac{1}{\sigma^2}J(\theta)^{\mathsf T}e(\theta),
-    \]
-    where $e(\theta)=y-A(\theta)$ and $J(\theta)=\frac{\partial A(\theta)}{\partial\theta}$ 
-    is the Jacobian of the forward map.
-    Since $y=A(\theta_0)$ gives $e(\theta_0)=0$, we have that 
-    \[
-    \nabla\log p(y\mid\theta_0) = 0.
-    \]
+    = \nabla\left(-\frac{1}{2\sigma^2}\lVert y-A(\theta)\rVert_2^2 \right)
+    = \frac{1}{\sigma^2}J_A(\theta)^{\mathsf T}\left(y-A(\theta) \right),
+    \end{align*}
+    where $J_A(\theta)$ 
+    is the Jacobian of the forward map $A$ (restricted to the domain $\mathcal{X}_1$).
+    Recalling that $y=A(\theta_0)$,
+    \begin{align}
+    \nabla\log p(y\mid\theta_0) = \frac{1}{\sigma^2}J_A(\theta_0)^{\mathsf T}\left(y-A(\theta_0) \right) = 0. \label{eq:gradient_log_likelihood_0}
+    \end{align}
 
-    Thus, the gradient of the log posterior is simply the gradient of the log
-    prior,
+    Finally, for $\theta \in \mathcal{X}_1$, we have that
+    \begin{align}
+    \nabla \log p(\theta) 
+    = \nabla \log \left(\lambda_r \e^{-\lambda_r r} \right)
+    = \nabla \left(-\lambda_r r \right)
+    = \left(0, 0, -\lambda_r, 0 \right)^{\mathsf T}. \label{eq:gradient_log_prior}
+    \end{align}
+    
+    Combining \eqref{eq:gradient_log_posterior}, \eqref{eq:gradient_log_likelihood_0}, and \eqref{eq:gradient_log_prior}, we have that
     \[
     g
     =
-    \nabla\log p(\theta_0).
-    \]
-
-    Under the current prior, \(x_0\), \(d\), and \(a\) are uniform on their allowed
-    ranges, while
-    \[
-    p(r)=\lambda_r e^{-\lambda_r r},
-    \qquad r\geq 0.
-    \]
-    Hence,
-    \[
-    g
-    =
-    \begin{pmatrix}
-    0\\[1mm]
-    0\\[1mm]
-    -\lambda_r\\[1mm]
-    0
-    \end{pmatrix}.
+    \left(0, 0, -\lambda_r, 0 \right)^{\mathsf T}.
     \]
 
     \item The negative Hessian of the log posterior is given by

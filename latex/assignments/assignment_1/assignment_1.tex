@@ -234,7 +234,7 @@ We present the solution as follows:
     &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0)^\top P(\theta-\theta_0)-2g^\top(\theta-\theta_0)+g^\top P^{-1}g-g^\top P^{-1}g\right]\nonumber\\
     &= \log p(\theta_0\mid y)-\frac12\left[(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)-g^\top P^{-1}g\right]\nonumber\\
     &= \log p(\theta_0\mid y) + \frac12g^\top P^{-1}g - \frac12(\theta-\theta_0-P^{-1}g)^\top P(\theta-\theta_0-P^{-1}g)\nonumber\\
-    &= C' - \frac12((\theta-\mu)^\top P(\theta-\mu)), \nonumber
+    &= C' - \frac12(\theta-\mu)^\top P(\theta-\mu), \nonumber
     \end{align}
     where $C'$ is some constant independent of $\theta$, and $\mu := \theta_0+P^{-1}g$.
 

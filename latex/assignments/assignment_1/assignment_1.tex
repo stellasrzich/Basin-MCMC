@@ -266,12 +266,14 @@ Note that this function need only be specified up to an additive constant.
 
 \textit{Solution.} 
 \hl{TODO: read over.}
-The log likelihood is given by 
+For $(\theta_1, \theta_2) \in \mathcal{X}_2$, the log likelihood is given by 
 \begin{align*}
   \log p(y\mid\theta_1, \theta_2)
   = - \frac{1}{2\sigma^2} \norm{A(\theta_0) - A(\theta_1) - A(\theta_2)}_2^2 + C
 \end{align*}
-for some constant $C$. Recall that the forward map is given by
+where $C$ is some constant independent of $(\theta_1, \theta_2)$, and $A: \mathcal{X} \to [0, 1]^{N_t N_x}$ is the forward map.
+Recall that the $t N_x + x$-th entry of the forward map $A: \mathcal{X} \to [0, 1]^{N_t N_x}$ 
+with parameters $\theta=(x_0, d, R, a)^{\mathsf T} \in \mathcal{X}_1$ is given by 
 \begin{align*}
   A(t, x; \theta) = aB(x)w(t-T(x))
 \end{align*}

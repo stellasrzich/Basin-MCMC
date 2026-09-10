@@ -471,26 +471,32 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \end{align}
     as $(h, \delta_0) \to 0$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
-    \item Define $\eta := a - a_0$ to be the difference between the total amplitude and the amplitude of the representative atom.
-    Then, from \eqref{eq:sum_forward_map_taylor_third} and \eqref{eq:sum_forward_map} we have that
+    \item Finally, with $\eta_0 := a - a_0$, combining \eqref{eq:sum_forward_map_taylor_third} and \eqref{eq:sum_forward_map} we have
     \begin{align}
     A(\theta_1) + A(\theta_2) 
-    &= a\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
-    &= (a_0 + \eta)\left[sF(c + \delta_1) + (1-s)F(c + \delta_2)\right] \nonumber\\
-    &= (a_0 + \eta)\bigl[F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
-    &+ O\left(\norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
-    &= a_0F(g_0) + \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
-    &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right) \nonumber\\
-    &= A(\theta_0) + \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
-    &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right) \nonumber
+    &= a\bigl[F(g_0) + J_F(g_0) \delta_0 + \frac{1}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
+    &= (a_0 + \eta_0)\bigl[F(g_0) + J_F(g_0) \delta_0 + \frac{1}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
+    &= a_0F(g_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(\left(1 + |\eta_0|\right)\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \nonumber\\
+    &= A(\theta_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(|\eta_0|\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \label{eq:sum_forward_map_taylor_eta}
     \end{align}
-    when $|a_1+a_2|>\epsilon$ . That is, 
+    as $(h, \delta_0, \eta_0) \to 0$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
+    That is,
     \begin{align}
     A(\theta_1) + A(\theta_2) - A(\theta_0)
-    &= \eta F(g_0) + a_0 J_{g_0} q + \frac{a_0}{2} s(1-s)H_{g_0}[h, h] \nonumber\\
-    &+ O\left(\abs{\eta}\norm{q} + \abs{\eta}\norm{h}^2 + \norm{q}^2 + \norm{q}\norm{h}^2 + \norm{h}^3\right) \label{eq:forward_map_approximation}
+    &=  \left(a - a_0\right) F(g_0) + a J_F(g_0) \left(g - g_0\right) + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(|a - a_0|\left(\norm{g - g_0}^2 + \norm{g - g_0}\norm{h}^2 + \norm{h}^3\right)\right) \label{eq:sum_forward_map_taylor_eta_simple}
     \end{align}
-    in some neighborhood around $\eta = a - a_0 = 0$. 
+    as $(h, g, a) \to (0,g_0,a_0)$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
+    In fact, notice that for $a_0 \neq 0$, $a \to a_0$ implies
+    $|a| = |a_1+a_2| \to |a_0| := a_\text{min} > 0$. Hence, $a \to a_0$ already enforces 
+    that the equation holds in a region where $|a_1+a_2|>a_\text{min}$.
+    
+    \hl{do i still even need the region thing is i send $\eta_0 \to 0$?}
+    \hl{put in the forward map thing.}
 
     \hl{where is it helpful that our parameterisation is as it is? so far it is just clear that making sure the deltas cancel gives the jacob 0, but not our particular choice}
 \end{enumerate}

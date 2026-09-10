@@ -326,7 +326,9 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \item $g_2 = g - \lambda h$.
     \end{itemize}
 
-    \item Define the function $F: [0,X_{\text{max}}]\times (0,D_{\text{max}}] \times[0, \infty) \to [0,1]^{N_t N_x}$ by 
+    \item Define the function $F: \mathcal{G} \to [0,1]^{N_t N_x}$
+    with $\mathcal{G}:= [0,X_{\text{max}}]\times (0,D_{\text{max}}] \times[0, \infty)$
+    by 
     \[F(g) := A(g, 1),\] 
     where $A(g,1)$ is the $N_t N_x$-dimensional vector with $A(t,x;g,1)$ as the $t N_x + x$-th entry.
     Notice that $A(g, a) = aF(g)$ for $a \in [-1, 1]$. Hence, 
@@ -338,8 +340,8 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \end{align}
     where $\delta_1 := g_1 - g = (1-\lambda)h$ and $\delta_2 := g_2 - g = -\lambda h$.
 
-    \item Now, for $g \in \operatorname{int}\left({\mathcal{X}_1}\right)$, 
-    (since $F$ is smooth in an open neighbourhood of $g\in\operatorname{int}\left({\mathcal{X}_1}\right)$) 
+    \item Now, for $g \in \operatorname{int}\left({\mathcal{G}}\right)$, 
+    (since $F$ is smooth in an open neighbourhood of $g\in\operatorname{int}\left({\mathcal{G}}\right)$) 
     performing a second-order Taylor expansion of $F$ around $g$ gives
     \begin{align}
     F(g + \delta)
@@ -416,8 +418,8 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     as $h \to 0$ (where the $O\left(\norm{h}^3\right)$ remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
     \item 
-    Now, for $g_0 \in \operatorname{int}\left({\mathcal{X}_1}\right)$, 
-    (since $F$ is smooth in an open neighbourhood of $g_0\in\operatorname{int}\left({\mathcal{X}_1}\right)$) 
+    Now, for $g_0 \in \operatorname{int}\left({\mathcal{G}}\right)$, 
+    (since $F$ is smooth in an open neighbourhood of $g_0\in\operatorname{int}\left({\mathcal{G}}\right)$) 
     performing a first-order Taylor expansion of $F$ around $g_0$ gives
     \begin{align}
     F(g_0 + \delta)
@@ -451,13 +453,13 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \begin{align}
     \lambda F(g + \delta_1) + (1-\lambda)F(g + \delta_2)
     &= F(g_0 + \delta_0) + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0) + J_F(g_0) q + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{\delta_0}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_second}
+    &= F(g_0) + J_F(g_0) \delta_0 + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{\delta_0}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_second}
     \end{align}
     as $(h, \delta_0) \to 0$, where $\delta_0 := g - g_0$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
     \item Since we would like an approximation that only depends on the representative atom $(g_0,a_0)$, 
     we will approximate $H_F(g)[h, h]$.
-    (Since $F$ has bounded third derivatives in an open neighbourhood of $g_0\in\operatorname{int}\left({\mathcal{X}_1}\right)$), 
+    (Since $F$ has bounded third derivatives in an open neighbourhood of $g_0\in\operatorname{int}\left({\mathcal{G}}\right)$), 
     we have that
     \[
     H_F(g)[h, h] = H_F(g_0)[h, h] + O(\norm{\delta_0}\norm{h}^2)

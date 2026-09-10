@@ -447,15 +447,13 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \frac{\partial F_{N_tN_x}(g_0)}{\partial R}
     \end{bmatrix}.
     \]
-    Applying the approximation \eqref{eq:taylor_expansion_2} to $F(c)$ in \eqref{eq:sum_forward_map_taylor_final_final} gives
+    Applying the approximation \eqref{eq:taylor_expansion_2} to $F(g)$ in \eqref{eq:sum_forward_map_taylor_final_final} gives
     \begin{align}
-    sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0 + q) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0) + J_F(g_0) q + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
+    \lambda F(g + \delta_1) + (1-\lambda)F(g + \delta_2)
+    &= F(g_0 + \delta_0) + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
+    &= F(g_0) + J_F(g_0) q + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{\delta_0}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_second}
     \end{align}
-    when $|a_1+a_2|>\epsilon$, 
-    where $q := c - g_0$.
+    as $(h, \delta_0) \to 0$, where $\delta_0 := g - g_0$ (where the $O\left(\norm{h}^3\right)$ remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
     \item Since we would like an approximation that only depends on the representative atom $(g_0,a_0)$, 
     we will approximate $H_F(g)[h, h]$.

@@ -384,35 +384,36 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     as $\left(\delta_1, \delta_2\right) \to 0$.
     Now, notice that since $\lambda\delta_1 + (1-\lambda)\delta_2 = 0$, we have that
     \begin{align}
-    J_F(g) \left(s\delta_1 + (1-s)\delta_2\right) = 0. \label{eq:jacobian_zero}
+    J_F(g) \left(\lambda \delta_1 + (1-\lambda)\delta_2\right) = 0. \label{eq:jacobian_zero}
     \end{align}
     Next, notice that since $H_F(g)[\delta, \delta]$ is bilinear, we have that
     \begin{align}
-    s H_F(g)[\delta_1, \delta_1]+ (1-s) H_F(g)[\delta_2, \delta_2]
-    &= s (1-s)^2 H_F(g)[h, h]+ (1-s) s^2 H_F(g)[h, h] \nonumber\\
-    &= s(1-s)H_F(g)[h, h]. \label{eq:bilinear_property}
+    \lambda H_F(g)[\delta_1, \delta_1]+ (1-\lambda) H_F(g)[\delta_2, \delta_2]
+    &= \lambda (1-\lambda)^2 H_F(g)[h, h]+ (1-\lambda) \lambda^2 H_F(g)[h, h] \nonumber\\
+    &= \lambda(1-\lambda)H_F(g)[h, h]. \label{eq:bilinear_property}
     \end{align}
     Combining \eqref{eq:sum_forward_map_taylor}, \eqref{eq:jacobian_zero}, and \eqref{eq:bilinear_property} gives
     \begin{align}
-    sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
+    \lambda F(g + \delta_1) + (1-\lambda)F(g + \delta_2)
+    &= F(g) + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
     \end{align}
     Since
     \[
-    \norm{\delta_1}^3 + \norm{\delta_2}^3 = \left(|s|^3 + |1-s|^3\right)\norm{h}^3,
+    \norm{\delta_1}^3 + \norm{\delta_2}^3 = \left(|\lambda|^3 + |1-\lambda|^3\right)\norm{h}^3,
     \]
-    if we restrict to the region where $|a_1+a_2|>\epsilon$ for some $\epsilon > 0$ 
+    if we restrict to the region where $|a_1+a_2|>a_\text{min}$ for some $a_\text{min} > 0$ 
     \hl{(which should be reasonable otherwise they cancel each other out in the image)}, 
-    so that $|s|, |1-s| < 1/\epsilon$, then we have that 
+    so that $|\lambda|, |1-\lambda| < 1/a_\text{min}$, then we have that 
     \begin{align}
-    O(\norm{\delta_1}^3 + \norm{\delta_2}^3) = O\left(\norm{h}^3\right). \label{eq:error_bound}
+    O(\norm{\delta_1}^3 + \norm{\delta_2}^3) = O\left(\norm{h}^3\right), \label{eq:error_bound}
     \end{align}
+    as $h \to 0$.
     Overall, combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_bound} gives
     \begin{align}
-    sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \label{eq:sum_forward_map_taylor_final_final}
+    \lambda F(g + \delta_1) + (1-\lambda)F(g + \delta_2)
+    &= F(g) + \frac{1}{2} \lambda(1-\lambda)H_F(g)[h, h] + O\left(\norm{h}^3\right) \label{eq:sum_forward_map_taylor_final_final}
     \end{align}
-    when $|a_1+a_2|>\epsilon$.
+    as $h \to 0$ (where the $O\left(\norm{h}^3\right)$ remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
     \item Now, (since $F$ is smooth) performing a first-order Taylor expansion of $F$ around $g_0$ gives
     \begin{align}

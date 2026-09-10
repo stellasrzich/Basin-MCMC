@@ -377,24 +377,24 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
 
     Using the Taylor approximation \eqref{eq:taylor_expansion} for each term in \eqref{eq:sum_forward_map} gives
     \begin{align}
-    sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + J_c \left(s\delta_1 + (1-s)\delta_2\right) + \frac{1}{2} \left(s H_c[\delta_1, \delta_1]+ (1-s) H_c[\delta_2, \delta_2]\right) \nonumber\\
+    \lambda F(g + \delta_1) + (1-\lambda)F(g + \delta_2)
+    &= F(g) + J_F(g) \left(\lambda\delta_1 + (1-\lambda)\delta_2\right) + \frac{1}{2} \left(\lambda H_F(g)[\delta_1, \delta_1]+ (1-\lambda) H_F(g)[\delta_2, \delta_2]\right) \nonumber\\
     &+ O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor}
     \end{align}
-    Now, notice that since $s\delta_1 + (1-s)\delta_2 = 0$, we have that
+    Now, notice that since $\lambda\delta_1 + (1-\lambda)\delta_2 = 0$, we have that
     \begin{align}
-    J_c \left(s\delta_1 + (1-s)\delta_2\right) = 0. \label{eq:jacobian_zero}
+    J_F(g) \left(s\delta_1 + (1-s)\delta_2\right) = 0. \label{eq:jacobian_zero}
     \end{align}
-    Next, notice that since $H_c[\delta, \delta]$ is bilinear, we have that
+    Next, notice that since $H_F(g)[\delta, \delta]$ is bilinear, we have that
     \begin{align}
-    s H_c[\delta_1, \delta_1]+ (1-s) H_c[\delta_2, \delta_2]
-    &= s (1-s)^2 H_c[h, h]+ (1-s) s^2 H_c[h, h] \nonumber\\
-    &= s(1-s)H_c[h, h]. \label{eq:bilinear_property}
+    s H_F(g)[\delta_1, \delta_1]+ (1-s) H_F(g)[\delta_2, \delta_2]
+    &= s (1-s)^2 H_F(g)[h, h]+ (1-s) s^2 H_F(g)[h, h] \nonumber\\
+    &= s(1-s)H_F(g)[h, h]. \label{eq:bilinear_property}
     \end{align}
     Combining \eqref{eq:sum_forward_map_taylor}, \eqref{eq:jacobian_zero}, and \eqref{eq:bilinear_property} gives
     \begin{align}
     sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
+    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O(\norm{\delta_1}^3 + \norm{\delta_2}^3). \label{eq:sum_forward_map_taylor_final}
     \end{align}
     Since
     \[
@@ -409,7 +409,7 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     Overall, combining \eqref{eq:sum_forward_map_taylor_final} and \eqref{eq:error_bound} gives
     \begin{align}
     sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \label{eq:sum_forward_map_taylor_final_final}
+    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \label{eq:sum_forward_map_taylor_final_final}
     \end{align}
     when $|a_1+a_2|>\epsilon$.
 
@@ -430,19 +430,19 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     Applying the approximation \eqref{eq:taylor_expansion_2} to $F(c)$ in \eqref{eq:sum_forward_map_taylor_final_final} gives
     \begin{align}
     sF(c + \delta_1) + (1-s)F(c + \delta_2)
-    &= F(c) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0 + q) + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_c[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
+    &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
+    &= F(g_0 + q) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
+    &= F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
     \end{align}
     when $|a_1+a_2|>\epsilon$, 
     where $q := c - g_0$.
 
     \item Since we would like an approximation that only depends on the representative atom $(g_0,a_0)$, 
-    we will approximate $H_c[h, h]$.
+    we will approximate $H_F(g)[h, h]$.
     Given some assumptions \hl{(such as $F$ has bounded third derivatives in a neighbourhood of $g_0$)}, 
     we have that
     \[
-    H_c[h, h] = H_{g_0}[h, h] + O(\norm{q}\norm{h}^2).
+    H_F(g)[h, h] = H_{g_0}[h, h] + O(\norm{q}\norm{h}^2).
     \]
     Combining this with \eqref{eq:sum_forward_map_taylor_second} gives
     \begin{align}

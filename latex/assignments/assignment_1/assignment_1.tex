@@ -481,19 +481,16 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     &= a_0F(g_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
     &+ O\left(\left(1 + |\eta_0|\right)\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \nonumber\\
     &= A(\theta_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
-    &+ O\left(|\eta_0|\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \label{eq:sum_forward_map_taylor_eta}
+    &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_eta}
     \end{align}
     as $(h, \delta_0, \eta_0) \to 0$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
     That is,
     \begin{align}
     A(\theta_1) + A(\theta_2) - A(\theta_0)
     &=  \left(a - a_0\right) F(g_0) + a J_F(g_0) \left(g - g_0\right) + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
-    &+ O\left(|a - a_0|\left(\norm{g - g_0}^2 + \norm{g - g_0}\norm{h}^2 + \norm{h}^3\right)\right) \label{eq:sum_forward_map_taylor_eta_simple}
+    &+ O\left(\norm{g - g_0}^2 + \norm{g - g_0}\norm{h}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_eta_simple}
     \end{align}
-    as $(h, g, a) \to (0,g_0,a_0)$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
-    In fact, notice that for $a_0 \neq 0$, $a \to a_0$ implies
-    $|a| = |a_1+a_2| \to |a_0| := a_\text{min} > 0$. Hence, $a \to a_0$ already enforces 
-    that the equation holds in a region where $|a_1+a_2|>a_\text{min}$.
+    as $(h, g) \to (0,g_0)$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
     \hl{where is it helpful that our parameterisation is as it is? so far it is just clear that making sure the deltas cancel gives the jacob 0, but not our particular choice}
 \end{enumerate}

@@ -415,26 +415,44 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     \end{align}
     as $h \to 0$ (where the $O\left(\norm{h}^3\right)$ remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
 
-    \item Now, (since $F$ is smooth) performing a first-order Taylor expansion of $F$ around $g_0$ gives
+    \item 
+    Now, for $g_0 \in \operatorname{int}\left({\mathcal{X}_1}\right)$, 
+    (since $F$ is smooth in an open neighbourhood of $g_0\in\operatorname{int}\left({\mathcal{X}_1}\right)$) 
+    performing a first-order Taylor expansion of $F$ around $g_0$ gives
     \begin{align}
     F(g_0 + \delta)
-    &= F(g_0) + J_{g_0} \delta + O(\norm{\delta}^2), \label{eq:taylor_expansion_2}
+    &= F(g_0) + J_F(g_0) \delta + O(\norm{\delta}^2) \label{eq:taylor_expansion_2}
     \end{align}
-    where 
-    and $J_{g_0}$ is the Jacobian of $F$ at $g_0$, given by
+    as $\delta \to 0$, where $J_F(g_0)$ is the Jacobian of $F$ at $g_0$, given by
     \[
-    J_{g_0} = \left[
+    J_F(g_0) = \left[
     \frac{\partial F(g_0)}{\partial x_0},
     \frac{\partial F(g_0)}{\partial d},
     \frac{\partial F(g_0)}{\partial R}
-    \right].
+    \right]
+    =
+    \begin{bmatrix}
+    \frac{\partial F_1(g_0)}{\partial x_0}
+    &
+    \frac{\partial F_1(g_0)}{\partial d}
+    &
+    \frac{\partial F_1(g_0)}{\partial R}
+    \\
+    \vdots & \vdots & \vdots
+    \\
+    \frac{\partial F_{N_tN_x}(g_0)}{\partial x_0}
+    &
+    \frac{\partial F_{N_tN_x}(g_0)}{\partial d}
+    &
+    \frac{\partial F_{N_tN_x}(g_0)}{\partial R}
+    \end{bmatrix}.
     \]
     Applying the approximation \eqref{eq:taylor_expansion_2} to $F(c)$ in \eqref{eq:sum_forward_map_taylor_final_final} gives
     \begin{align}
     sF(c + \delta_1) + (1-s)F(c + \delta_2)
     &= F(c) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
     &= F(g_0 + q) + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{h}^3\right) \nonumber\\
-    &= F(g_0) + J_{g_0} q + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
+    &= F(g_0) + J_F(g_0) q + \frac{1}{2} s(1-s)H_F(g)[h, h] + O\left(\norm{q}^2 + \norm{h}^3\right). \label{eq:sum_forward_map_taylor_second}
     \end{align}
     when $|a_1+a_2|>\epsilon$, 
     where $q := c - g_0$.

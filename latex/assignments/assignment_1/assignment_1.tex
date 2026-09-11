@@ -479,10 +479,11 @@ We present the solution as follows: \hl{TODO: Change the presentation once the s
     &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
     &= (a_0 + \eta_0)\bigl[F(g_0) + J_F(g_0) \delta_0 + \frac{1}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
     &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\bigr] \nonumber\\
-    &= a_0F(g_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
-    &+ O\left(\left(1 + |\eta_0|\right)\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \nonumber\\
-    &= A(\theta_0) + \eta_0 F(g_0) + a J_F(g_0) \delta_0 + \frac{a}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
-    &+ O\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right) \label{eq:sum_forward_map_taylor_eta}
+    &= a_0F(g_0) + \eta_0 F(g_0) + a_0 J_F(g_0) \delta_0 + \frac{a_0}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(|\eta_0|\norm{\delta_0} + |\eta_0|\norm{h}^2 + \left(1 + |\eta_0|\right)\left(\norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)\right) \nonumber\\
+    &= A(\theta_0) + \eta_0 F(g_0) + a_0 J_F(g_0) \delta_0 + \frac{a_0}{2} \lambda(1-\lambda)H_F(g_0)[h, h] \nonumber\\
+    &+ O\left(|\eta_0|\norm{\delta_0} + |\eta_0|\norm{h}^2 + \norm{\delta_0}^2 + \norm{\delta_0}\norm{h}^2 + \norm{h}^3\right)
+    \label{eq:sum_forward_map_taylor_eta}
     \end{align}
     as $(h, \delta_0, \eta_0) \to 0$ (where the remainder is uniform in $\lambda$ in the region where $|a_1+a_2|>a_\text{min}$).
     That is,
